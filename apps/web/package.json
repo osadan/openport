@@ -11,13 +11,15 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.45.0",
+    "papaparse": "^5.5.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.24.0",
-    "zustand": "^4.5.4",
-    "shared": "workspace:*"
+    "shared": "workspace:*",
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
+    "@types/papaparse": "^5.5.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",

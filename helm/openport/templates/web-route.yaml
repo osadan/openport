@@ -1,0 +1,14 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ .Release.Name }}-web
+spec:
+  host: {{ .Values.routes.web }}
+  to:
+    kind: Service
+    name: {{ .Release.Name }}-web
+  port:
+    targetPort: {{ .Values.web.port }}
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

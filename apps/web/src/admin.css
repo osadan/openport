@@ -75,6 +75,22 @@
   background: #3182ce;
 }
 
+.btn-import {
+  background: #2d3748;
+  color: #90cdf4;
+  border: 1px solid #4a5568;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: start;
+}
+
+.btn-import:hover {
+  background: #3a4a61;
+  border-color: #63b3ed;
+}
+
 .event-item {
   display: flex;
   flex-direction: column;

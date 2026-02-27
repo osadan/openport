@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import Papa from 'papaparse'
 import type { Event, Action, Condition, Effect } from 'shared'
 import './admin.css'
 
@@ -34,6 +35,74 @@ async function saveEvent(ev: Event, isNew: boolean): Promise<Event> {
 async function deleteEvent(id: string): Promise<void> {
   const res = await fetch(`${API}/${id}`, { method: 'DELETE' })
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
+}
+
+// CSV format: one row per action (event fields repeated per row)
+// Columns: event_id, event_title, event_description, event_baseWeight, event_cooldown,
+//          event_terminal, event_terminalOutcome, event_conditions,
+//          action_id, action_label, action_cooldown, action_scoreImpact, action_effects
+async function importFromCsv(file: File): Promise<{ imported: number; errors: string[] }> {
+  const text = await file.text()
+  const { data, errors: parseErrors } = Papa.parse<Record<string, string>>(text, {
+    header: true,
+    skipEmptyLines: true,
+  })
+
+  if (parseErrors.length) throw new Error(`CSV parse error: ${parseErrors[0].message}`)
+
+  // Group rows by event_id to reconstruct events
+  const eventMap = new Map<string, Event>()
+  const rowErrors: string[] = []
+
+  for (const row of data) {
+    const id = row.event_id?.trim()
+    if (!id) { rowErrors.push(`Row missing event_id`); continue }
+
+    if (!eventMap.has(id)) {
+      let conditions: Condition[] = []
+      try { conditions = row.event_conditions ? JSON.parse(row.event_conditions) : [] }
+      catch { rowErrors.push(`event ${id}: invalid conditions JSON`); continue }
+
+      eventMap.set(id, {
+        id,
+        title:           row.event_title ?? '',
+        description:     row.event_description ?? '',
+        baseWeight:      Number(row.event_baseWeight) || 10,
+        cooldown:        Number(row.event_cooldown) || 0,
+        terminal:        row.event_terminal === 'true' || undefined,
+        terminalOutcome: (row.event_terminalOutcome as 'win' | 'lose') || undefined,
+        conditions,
+        actions: [],
+      })
+    }
+
+    const ev = eventMap.get(id)!
+    let effects: Effect[] = []
+    try { effects = row.action_effects ? JSON.parse(row.action_effects) : [] }
+    catch { rowErrors.push(`event ${id} action ${row.action_id}: invalid effects JSON`); continue }
+
+    if (row.action_id) {
+      ev.actions.push({
+        id:          row.action_id.trim(),
+        label:       row.action_label ?? '',
+        cooldown:    Number(row.action_cooldown) || 0,
+        scoreImpact: Number(row.action_scoreImpact) || 0,
+        effects,
+      })
+    }
+  }
+
+  // Upsert each event
+  let imported = 0
+  for (const ev of eventMap.values()) {
+    // Check if exists
+    const checkRes = await fetch(`${API}/${ev.id}`)
+    const isNew = !checkRes.ok
+    await saveEvent(ev, isNew)
+    imported++
+  }
+
+  return { imported, errors: rowErrors }
 }
 
 function emptyAction(): Action {
@@ -283,6 +352,27 @@ export function AdminView() {
 
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [isNew, setIsNew] = useState(false)
+  const [importStatus, setImportStatus] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const qc = useQueryClient()
+
+  async function handleCsvImport(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setImportStatus('Importing…')
+    try {
+      const { imported, errors } = await importFromCsv(file)
+      await qc.invalidateQueries({ queryKey: ['events'] })
+      setImportStatus(
+        errors.length
+          ? `Imported ${imported} events. Warnings: ${errors.join('; ')}`
+          : `✓ Imported ${imported} events`
+      )
+    } catch (err) {
+      setImportStatus(`Error: ${(err as Error).message}`)
+    }
+    e.target.value = ''
+  }
 
   const selected = events?.find(e => e.id === selectedId) ?? null
 
@@ -319,6 +409,15 @@ export function AdminView() {
         {/* Left panel: event list */}
         <aside className="event-list">
           <button className="btn-new" onClick={handleNew}>+ New Event</button>
+          <button className="btn-import" onClick={() => fileInputRef.current?.click()}>↑ Import CSV</button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".csv"
+            style={{ display: 'none' }}
+            onChange={handleCsvImport}
+          />
+          {importStatus && <p className={`status ${importStatus.startsWith('Error') ? 'error' : ''}`}>{importStatus}</p>}
           {isLoading && <p className="status">Loading…</p>}
           {error   && <p className="status error">Failed to load events</p>}
           {events?.map(ev => (

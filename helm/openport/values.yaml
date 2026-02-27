@@ -1,0 +1,14 @@
+api:
+  image: ghcr.io/your-org/openport-api:latest
+  replicas: 1
+  port: 3000
+
+web:
+  image: ghcr.io/your-org/openport-web:latest
+  replicas: 1
+  port: 80
+
+# OpenShift Route hostnames — override per environment
+routes:
+  api: api.openport.apps.cluster.example.com
+  web: openport.apps.cluster.example.com

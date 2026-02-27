@@ -1,0 +1,6 @@
+apiVersion: v2
+name: openport
+description: Open The Port — corporate bureaucracy decision game
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
