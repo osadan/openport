@@ -1,8 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import './game.css'
+import App from './App'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <div>Open The Port</div>
+    <App />
   </StrictMode>,
 )

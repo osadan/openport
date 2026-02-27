@@ -1,0 +1,31 @@
+{
+  "initialState": {
+    "timeLeft": 180,
+    "stress": 20,
+    "privilege": 1,
+    "bureaucracy": 20,
+    "security": 20,
+    "influence": 0,
+    "score": 0
+  },
+  "initRanges": {
+    "stress":      [15, 30],
+    "bureaucracy": [15, 30],
+    "security":    [10, 30]
+  },
+  "winConditions": {
+    "minPrivilege":   5,
+    "maxSecurity":    70,
+    "maxBureaucracy": 70
+  },
+  "loseThresholds": {
+    "maxStress":    100,
+    "minPrivilege": 0,
+    "minTimeLeft":  0
+  },
+  "scoreTiers": [
+    { "label": "Temporary Approval",      "min": 0,   "max": 49   },
+    { "label": "Standard Approval",       "min": 50,  "max": 149  },
+    { "label": "Permanent Authorization", "min": 150, "max": 9999 }
+  ]
+}

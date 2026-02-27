@@ -35,4 +35,14 @@ export type Event = {
   cooldown: number
   conditions: Condition[]
   actions: Action[]
+  terminal?: boolean
+  terminalOutcome?: 'win' | 'lose'
 }
+
+export type CooldownState = {
+  events: Record<string, number>  // eventId  -> expiry timestamp (ms)
+  actions: Record<string, number> // actionId -> expiry timestamp (ms)
+}
+
+export type LoseReason = 'time' | 'stress' | 'privilege' | 'critical'
+export type RunOutcome = 'win' | LoseReason

@@ -1,0 +1,1939 @@
+[
+  {
+    "id": "firewall-ticket",
+    "title": "Open the Change Request Ticket",
+    "description": "Your application can't reach its backend because the corporate firewall blocks the port by default. You open ticket CHG0042731 in ServiceNow. The form demands: port number, protocol, source subnet, destination subnet, and business justification. Every field will be scrutinized.",
+    "baseWeight": 15,
+    "cooldown": 30,
+    "conditions": [],
+    "actions": [
+      {
+        "id": "firewall-ticket-thorough",
+        "label": "Fill out every field with precision",
+        "effects": [
+          {
+            "target": "bureaucracy",
+            "delta": 8
+          },
+          {
+            "target": "timeLeft",
+            "delta": -5
+          }
+        ],
+        "cooldown": 4,
+        "scoreImpact": 8
+      },
+      {
+        "id": "firewall-ticket-minimal",
+        "label": "Fill mandatory fields, skip the optional ones",
+        "effects": [
+          {
+            "target": "stress",
+            "delta": 12
+          },
+          {
+            "target": "security",
+            "delta": 8
+          },
+          {
+            "target": "timeLeft",
+            "delta": -2
+          }
+        ],
+        "cooldown": 2,
+        "scoreImpact": 2
+      },
+      {
+        "id": "firewall-ticket-template",
+        "label": "Clone a recently approved ticket as a template",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -5
+          },
+          {
+            "target": "bureaucracy",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -3
+          }
+        ],
+        "cooldown": 3,
+        "scoreImpact": 5
+      }
+    ]
+  },
+  {
+    "id": "network-path-question",
+    "title": "Network Team Needs the Full Traffic Path",
+    "description": "The firewall engineers bounce your ticket back: 'Insufficient detail. We need a hop-by-hop trace — source host, source subnet, firewall cluster name, destination host, destination subnet, with actual IPs. Hostnames are not enough.' Every field matters.",
+    "baseWeight": 12,
+    "cooldown": 30,
+    "conditions": [],
+    "actions": [
+      {
+        "id": "network-path-question-diagram",
+        "label": "Produce a precise network diagram with all IPs",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -12
+          },
+          {
+            "target": "bureaucracy",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -8
+          }
+        ],
+        "cooldown": 6,
+        "scoreImpact": 12
+      },
+      {
+        "id": "network-path-question-vlan",
+        "label": "Reply with hostnames and VLAN information",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -4
+          }
+        ],
+        "cooldown": 3,
+        "scoreImpact": 5
+      },
+      {
+        "id": "network-path-question-lookup",
+        "label": "Ask the network team to look up the IPs themselves",
+        "effects": [
+          {
+            "target": "stress",
+            "delta": 15
+          },
+          {
+            "target": "security",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -2
+          }
+        ],
+        "cooldown": 2,
+        "scoreImpact": 1
+      }
+    ]
+  },
+  {
+    "id": "tcp-vs-udp",
+    "title": "TCP or UDP? The Network Team Asks",
+    "description": "Your ticket says 'port 8443' but the reply is blunt: 'Protocol unspecified. TCP? UDP? Both? We won't write a rule until you confirm.' It seems pedantic. But a wrong protocol means the rule either does nothing or blows open a larger surface than intended.",
+    "baseWeight": 12,
+    "cooldown": 25,
+    "conditions": [],
+    "actions": [
+      {
+        "id": "tcp-vs-udp-confirm",
+        "label": "Confirm TCP — document why (stateful, connection-oriented)",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -8
+          },
+          {
+            "target": "timeLeft",
+            "delta": -3
+          }
+        ],
+        "cooldown": 3,
+        "scoreImpact": 8
+      },
+      {
+        "id": "tcp-vs-udp-both",
+        "label": "Request both TCP and UDP to be safe",
+        "effects": [
+          {
+            "target": "security",
+            "delta": 12
+          },
+          {
+            "target": "bureaucracy",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -2
+          }
+        ],
+        "cooldown": 2,
+        "scoreImpact": 1
+      },
+      {
+        "id": "tcp-vs-udp-hold",
+        "label": "Put the ticket on hold while you check with the app team",
+        "effects": [
+          {
+            "target": "bureaucracy",
+            "delta": 5
+          },
+          {
+            "target": "stress",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -2
+          }
+        ],
+        "cooldown": 2,
+        "scoreImpact": 2
+      }
+    ]
+  },
+  {
+    "id": "justify-business-need",
+    "title": "Security Demands a Formal Business Justification",
+    "description": "The InfoSec team won't review the rule until the ticket includes a written justification: what application uses this port, why the standard HTTPS port is insufficient, what data classification flows over it, and who signs as business owner. One paragraph won't do.",
+    "baseWeight": 12,
+    "cooldown": 30,
+    "conditions": [],
+    "actions": [
+      {
+        "id": "justify-business-need-thorough",
+        "label": "Write a thorough justification with data classification",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -10
+          },
+          {
+            "target": "bureaucracy",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -7
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 12
+      },
+      {
+        "id": "justify-business-need-jira",
+        "label": "Paste the JIRA ticket link as the justification",
+        "effects": [
+          {
+            "target": "stress",
+            "delta": 8
+          },
+          {
+            "target": "security",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -2
+          }
+        ],
+        "cooldown": 2,
+        "scoreImpact": 2
+      },
+      {
+        "id": "justify-business-need-pm",
+        "label": "Ask the product manager to write it",
+        "effects": [
+          {
+            "target": "influence",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -5
+          }
+        ],
+        "cooldown": 4,
+        "scoreImpact": 5
+      }
+    ]
+  },
+  {
+    "id": "source-ip-scope",
+    "title": "Security Asks: Which Source IPs Need Access?",
+    "description": "'permit tcp any any eq 8443' will never be approved. The security engineer explains: the rule must be scoped to specific source IP ranges. Narrower means less attack surface. But the narrower you go, the harder it is to define correctly without breaking something.",
+    "baseWeight": 10,
+    "cooldown": 30,
+    "conditions": [],
+    "actions": [
+      {
+        "id": "source-ip-scope-exact",
+        "label": "Scope to exact source IPs with written justification",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -15
+          },
+          {
+            "target": "bureaucracy",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -8
+          }
+        ],
+        "cooldown": 6,
+        "scoreImpact": 14
+      },
+      {
+        "id": "source-ip-scope-subnet",
+        "label": "Scope to the source /24 subnet",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -4
+          }
+        ],
+        "cooldown": 3,
+        "scoreImpact": 6
+      },
+      {
+        "id": "source-ip-scope-any",
+        "label": "Request any-source access to simplify future changes",
+        "effects": [
+          {
+            "target": "security",
+            "delta": 15
+          },
+          {
+            "target": "timeLeft",
+            "delta": -2
+          }
+        ],
+        "cooldown": 2,
+        "scoreImpact": 0
+      }
+    ]
+  },
+  {
+    "id": "firewall-rule-draft",
+    "title": "Write the ACL Rule Yourself",
+    "description": "The firewall admin asks you to draft the actual rule syntax for review: something like 'access-list INBOUND permit tcp 10.20.30.0/24 host 192.168.1.50 eq 8443'. One typo and traffic is silently dropped. Get the object names, subnet masks, and direction exactly right.",
+    "baseWeight": 10,
+    "cooldown": 35,
+    "conditions": [],
+    "actions": [
+      {
+        "id": "firewall-rule-draft-peer-review",
+        "label": "Draft it and have a network engineer peer-review it",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -10
+          },
+          {
+            "target": "influence",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -8
+          }
+        ],
+        "cooldown": 6,
+        "scoreImpact": 12
+      },
+      {
+        "id": "firewall-rule-draft-solo",
+        "label": "Write it yourself and submit directly",
+        "effects": [
+          {
+            "target": "stress",
+            "delta": 5
+          },
+          {
+            "target": "security",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -5
+          }
+        ],
+        "cooldown": 4,
+        "scoreImpact": 5
+      },
+      {
+        "id": "firewall-rule-draft-delegate",
+        "label": "Ask the firewall admin to draft it from your description",
+        "effects": [
+          {
+            "target": "bureaucracy",
+            "delta": 10
+          },
+          {
+            "target": "timeLeft",
+            "delta": -3
+          }
+        ],
+        "cooldown": 3,
+        "scoreImpact": 3
+      }
+    ]
+  },
+  {
+    "id": "existing-deny-rule",
+    "title": "An Existing DENY Rule Already Covers Your Port",
+    "description": "The firewall admin pulls up the rule base. Rule 47: 'deny tcp any any eq 8443 — applied globally, set four years ago, owner unknown'. A permit rule added below it will do nothing. You need to either get rule 47 removed, narrowed, or override it with a higher-priority exception.",
+    "baseWeight": 10,
+    "cooldown": 35,
+    "conditions": [],
+    "actions": [
+      {
+        "id": "existing-deny-rule-owner",
+        "label": "Track down rule 47's original owner and get sign-off",
+        "effects": [
+          {
+            "target": "privilege",
+            "delta": 1
+          },
+          {
+            "target": "bureaucracy",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -7
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 12
+      },
+      {
+        "id": "existing-deny-rule-exception",
+        "label": "Submit a policy exception to place your rule above rule 47",
+        "effects": [
+          {
+            "target": "privilege",
+            "delta": 1
+          },
+          {
+            "target": "bureaucracy",
+            "delta": 15
+          },
+          {
+            "target": "stress",
+            "delta": 10
+          },
+          {
+            "target": "timeLeft",
+            "delta": -8
+          }
+        ],
+        "cooldown": 6,
+        "scoreImpact": 8
+      },
+      {
+        "id": "existing-deny-rule-narrow",
+        "label": "Request rule 47 be narrowed to exclude your IP range",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -8
+          },
+          {
+            "target": "bureaucracy",
+            "delta": 10
+          },
+          {
+            "target": "timeLeft",
+            "delta": -6
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 6
+      }
+    ]
+  },
+  {
+    "id": "port-scan-alert",
+    "title": "Automated Scanner Flags Your Proposed Port",
+    "description": "Nessus ran its weekly scan and flagged the port in your change request: 'HIGH — non-standard inbound port, service not in CMDB, commonly targeted by scanners.' InfoSec is now asking whether the service is hardened and whether TLS termination is enforced on this port.",
+    "baseWeight": 10,
+    "cooldown": 35,
+    "conditions": [
+      {
+        "param": "security",
+        "op": ">=",
+        "value": 25
+      }
+    ],
+    "actions": [
+      {
+        "id": "port-scan-alert-harden",
+        "label": "Provide hardening docs and TLS certificate evidence",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -15
+          },
+          {
+            "target": "timeLeft",
+            "delta": -8
+          }
+        ],
+        "cooldown": 6,
+        "scoreImpact": 12
+      },
+      {
+        "id": "port-scan-alert-false-positive",
+        "label": "Argue the finding is a false positive",
+        "effects": [
+          {
+            "target": "security",
+            "delta": 10
+          },
+          {
+            "target": "stress",
+            "delta": 15
+          },
+          {
+            "target": "timeLeft",
+            "delta": -4
+          }
+        ],
+        "cooldown": 3,
+        "scoreImpact": 2
+      },
+      {
+        "id": "port-scan-alert-add-tls",
+        "label": "Agree to add TLS enforcement and resubmit",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -5
+          },
+          {
+            "target": "bureaucracy",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -6
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 7
+      }
+    ]
+  },
+  {
+    "id": "maintenance-window",
+    "title": "Firewall Changes Require an Approved Maintenance Window",
+    "description": "The network team confirms approval — but won't push the rule until an approved maintenance window. Production windows are Sunday nights, 2am–6am, scheduled four weeks out. The queue is filling. The next available slot is five weeks away unless you can claim an emergency window.",
+    "baseWeight": 8,
+    "cooldown": 35,
+    "conditions": [
+      {
+        "param": "bureaucracy",
+        "op": ">=",
+        "value": 20
+      }
+    ],
+    "actions": [
+      {
+        "id": "maintenance-window-book",
+        "label": "Book the next standard maintenance slot",
+        "effects": [
+          {
+            "target": "bureaucracy",
+            "delta": 5
+          },
+          {
+            "target": "stress",
+            "delta": -5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -4
+          }
+        ],
+        "cooldown": 3,
+        "scoreImpact": 4
+      },
+      {
+        "id": "maintenance-window-emergency",
+        "label": "Request an emergency out-of-band window",
+        "effects": [
+          {
+            "target": "privilege",
+            "delta": 1
+          },
+          {
+            "target": "stress",
+            "delta": 15
+          },
+          {
+            "target": "bureaucracy",
+            "delta": 10
+          },
+          {
+            "target": "timeLeft",
+            "delta": -5
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 12
+      },
+      {
+        "id": "maintenance-window-wait",
+        "label": "Accept the delay — patience is a virtue",
+        "effects": [
+          {
+            "target": "bureaucracy",
+            "delta": 10
+          },
+          {
+            "target": "stress",
+            "delta": -8
+          },
+          {
+            "target": "timeLeft",
+            "delta": -6
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 1
+      }
+    ]
+  },
+  {
+    "id": "staging-test",
+    "title": "Policy: Validate in Staging Before Production",
+    "description": "Change management policy requires firewall rule changes to be tested in staging before production. Staging has its own firewall cluster. You need to open the same port there, run connectivity tests, and attach documented results. Only then can the production ticket advance.",
+    "baseWeight": 10,
+    "cooldown": 35,
+    "conditions": [],
+    "actions": [
+      {
+        "id": "staging-test-full",
+        "label": "Run full validation with documented test results",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -12
+          },
+          {
+            "target": "bureaucracy",
+            "delta": -5
+          },
+          {
+            "target": "stress",
+            "delta": -5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -8
+          }
+        ],
+        "cooldown": 6,
+        "scoreImpact": 12
+      },
+      {
+        "id": "staging-test-quick",
+        "label": "Quick telnet test, document as passed",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -4
+          },
+          {
+            "target": "stress",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -4
+          }
+        ],
+        "cooldown": 3,
+        "scoreImpact": 5
+      },
+      {
+        "id": "staging-test-skip",
+        "label": "Argue staging doesn't match prod topology — request skip",
+        "effects": [
+          {
+            "target": "stress",
+            "delta": 15
+          },
+          {
+            "target": "security",
+            "delta": 8
+          },
+          {
+            "target": "timeLeft",
+            "delta": -3
+          }
+        ],
+        "cooldown": 3,
+        "scoreImpact": 1
+      }
+    ]
+  },
+  {
+    "id": "rollback-plan",
+    "title": "Change Management: Where Is the Rollback Plan?",
+    "description": "The CAB pre-check system bounced your ticket: required field missing — 'Rollback Procedure'. It wants a step-by-step plan for what happens if the firewall rule causes issues: who to call, exact CLI commands to revert the ACL, and the expected recovery time objective.",
+    "baseWeight": 8,
+    "cooldown": 35,
+    "conditions": [
+      {
+        "param": "bureaucracy",
+        "op": ">=",
+        "value": 20
+      }
+    ],
+    "actions": [
+      {
+        "id": "rollback-plan-thorough",
+        "label": "Write a thorough rollback procedure with CLI commands and contacts",
+        "effects": [
+          {
+            "target": "bureaucracy",
+            "delta": -5
+          },
+          {
+            "target": "security",
+            "delta": -5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -7
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 10
+      },
+      {
+        "id": "rollback-plan-minimal",
+        "label": "Write 'remove the ACL rule' and submit",
+        "effects": [
+          {
+            "target": "bureaucracy",
+            "delta": 5
+          },
+          {
+            "target": "security",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -2
+          }
+        ],
+        "cooldown": 2,
+        "scoreImpact": 2
+      },
+      {
+        "id": "rollback-plan-template",
+        "label": "Copy the rollback section from a recently approved change",
+        "effects": [
+          {
+            "target": "bureaucracy",
+            "delta": 3
+          },
+          {
+            "target": "timeLeft",
+            "delta": -4
+          }
+        ],
+        "cooldown": 3,
+        "scoreImpact": 5
+      }
+    ]
+  },
+  {
+    "id": "vulnerability-finding",
+    "title": "Risk Assessment: Port Scored 7.8 — High",
+    "description": "The security team's vulnerability assessment tool scores your request a 7.8 CVSS: non-standard port, service absent from the CMDB, and the destination server has three open CVEs. They want those CVEs remediated and the CMDB entry created before they'll sign off on the firewall rule.",
+    "baseWeight": 7,
+    "cooldown": 40,
+    "conditions": [
+      {
+        "param": "security",
+        "op": ">=",
+        "value": 35
+      }
+    ],
+    "actions": [
+      {
+        "id": "vulnerability-finding-patch",
+        "label": "Patch the CVEs and create the CMDB entry",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -20
+          },
+          {
+            "target": "privilege",
+            "delta": 1
+          },
+          {
+            "target": "stress",
+            "delta": 10
+          },
+          {
+            "target": "timeLeft",
+            "delta": -9
+          }
+        ],
+        "cooldown": 7,
+        "scoreImpact": 15
+      },
+      {
+        "id": "vulnerability-finding-compensating",
+        "label": "Document compensating controls instead of patching",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -10
+          },
+          {
+            "target": "bureaucracy",
+            "delta": 10
+          },
+          {
+            "target": "timeLeft",
+            "delta": -6
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 8
+      },
+      {
+        "id": "vulnerability-finding-pushback",
+        "label": "Push back: the CVEs are in unrelated components",
+        "effects": [
+          {
+            "target": "stress",
+            "delta": 20
+          },
+          {
+            "target": "security",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -4
+          }
+        ],
+        "cooldown": 3,
+        "scoreImpact": 2
+      }
+    ]
+  },
+  {
+    "id": "firewall-syntax-error",
+    "title": "Firewall Admin Finds an Error in Your ACL Rule",
+    "description": "The firewall admin emails: 'Your rule references a non-existent ACL group name. This is syntactically invalid — the rule would be silently ignored in production.' The mistake is yours. It's been logged in the ticket audit trail and other reviewers can see it.",
+    "baseWeight": 7,
+    "cooldown": 40,
+    "conditions": [
+      {
+        "param": "bureaucracy",
+        "op": ">=",
+        "value": 30
+      }
+    ],
+    "actions": [
+      {
+        "id": "firewall-syntax-error-fix-explain",
+        "label": "Fix the error and explain how it happened",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -5
+          },
+          {
+            "target": "bureaucracy",
+            "delta": 5
+          },
+          {
+            "target": "stress",
+            "delta": 10
+          },
+          {
+            "target": "timeLeft",
+            "delta": -6
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 7
+      },
+      {
+        "id": "firewall-syntax-error-fix-silent",
+        "label": "Fix it silently and resubmit without comment",
+        "effects": [
+          {
+            "target": "stress",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -4
+          }
+        ],
+        "cooldown": 3,
+        "scoreImpact": 3
+      },
+      {
+        "id": "firewall-syntax-error-blame",
+        "label": "Blame the template you were given",
+        "effects": [
+          {
+            "target": "stress",
+            "delta": 15
+          },
+          {
+            "target": "influence",
+            "delta": -5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -2
+          }
+        ],
+        "cooldown": 2,
+        "scoreImpact": 0
+      }
+    ]
+  },
+  {
+    "id": "compliance-concern",
+    "title": "Compliance Team: This Port May Affect PCI Scope",
+    "description": "Your company is PCI-DSS certified. The compliance officer flags your change: 'Opening an additional inbound port on a PCI-scoped host may expand the cardholder data environment.' They want written evidence that no payment data flows through this port before they'll clear it.",
+    "baseWeight": 6,
+    "cooldown": 45,
+    "conditions": [
+      {
+        "param": "security",
+        "op": ">=",
+        "value": 35
+      }
+    ],
+    "actions": [
+      {
+        "id": "compliance-concern-scoping",
+        "label": "Produce formal scoping documentation with the security team",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -15
+          },
+          {
+            "target": "privilege",
+            "delta": 1
+          },
+          {
+            "target": "timeLeft",
+            "delta": -9
+          }
+        ],
+        "cooldown": 7,
+        "scoreImpact": 14
+      },
+      {
+        "id": "compliance-concern-move-server",
+        "label": "Move the destination server out of PCI scope",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -10
+          },
+          {
+            "target": "bureaucracy",
+            "delta": 10
+          },
+          {
+            "target": "timeLeft",
+            "delta": -7
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 8
+      },
+      {
+        "id": "compliance-concern-argue",
+        "label": "Argue in writing that this port doesn't touch cardholder data",
+        "effects": [
+          {
+            "target": "stress",
+            "delta": 15
+          },
+          {
+            "target": "security",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -4
+          }
+        ],
+        "cooldown": 3,
+        "scoreImpact": 3
+      }
+    ]
+  },
+  {
+    "id": "pen-test-request",
+    "title": "Security Wants to Pen Test the Exposed Port",
+    "description": "InfoSec won't sign off without running a controlled penetration test against the service before the firewall rule goes live. They want to verify the endpoint is hardened. This adds a full cycle — but a clean pen test result would be a strong argument for the CAB.",
+    "baseWeight": 6,
+    "cooldown": 45,
+    "conditions": [
+      {
+        "param": "security",
+        "op": ">=",
+        "value": 40
+      }
+    ],
+    "actions": [
+      {
+        "id": "pen-test-request-schedule",
+        "label": "Schedule and facilitate the pen test",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -20
+          },
+          {
+            "target": "privilege",
+            "delta": 1
+          },
+          {
+            "target": "stress",
+            "delta": 10
+          },
+          {
+            "target": "timeLeft",
+            "delta": -9
+          }
+        ],
+        "cooldown": 7,
+        "scoreImpact": 15
+      },
+      {
+        "id": "pen-test-request-previous",
+        "label": "Share previous pen test results from six months ago",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -8
+          },
+          {
+            "target": "bureaucracy",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -5
+          }
+        ],
+        "cooldown": 4,
+        "scoreImpact": 7
+      },
+      {
+        "id": "pen-test-request-decline",
+        "label": "Decline — argue it's out of scope for this change",
+        "effects": [
+          {
+            "target": "security",
+            "delta": 10
+          },
+          {
+            "target": "stress",
+            "delta": 15
+          },
+          {
+            "target": "timeLeft",
+            "delta": -2
+          }
+        ],
+        "cooldown": 2,
+        "scoreImpact": 0
+      }
+    ]
+  },
+  {
+    "id": "queue-jumped",
+    "title": "A P1 Incident Pushed Your Ticket Back",
+    "description": "A 2am production outage consumed the network team for the entire week. Your change request was deprioritized and pushed back another two cycles. Three weeks of queue position, gone. The original reviewer is now on PTO. The firewall rule hasn't moved.",
+    "baseWeight": 8,
+    "cooldown": 35,
+    "conditions": [
+      {
+        "param": "bureaucracy",
+        "op": ">=",
+        "value": 30
+      }
+    ],
+    "actions": [
+      {
+        "id": "queue-jumped-escalate",
+        "label": "Escalate to the reviewer's manager",
+        "effects": [
+          {
+            "target": "privilege",
+            "delta": 1
+          },
+          {
+            "target": "stress",
+            "delta": 10
+          },
+          {
+            "target": "timeLeft",
+            "delta": -5
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 8
+      },
+      {
+        "id": "queue-jumped-wait",
+        "label": "Wait for the reviewer to return from PTO",
+        "effects": [
+          {
+            "target": "bureaucracy",
+            "delta": 5
+          },
+          {
+            "target": "stress",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -6
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 2
+      },
+      {
+        "id": "queue-jumped-backup",
+        "label": "Find a backup reviewer who can pick it up",
+        "effects": [
+          {
+            "target": "bureaucracy",
+            "delta": -5
+          },
+          {
+            "target": "influence",
+            "delta": 10
+          },
+          {
+            "target": "timeLeft",
+            "delta": -6
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 7
+      }
+    ]
+  },
+  {
+    "id": "prod-emergency",
+    "title": "Production Is Down — The Port Is Needed Now",
+    "description": "The deployment went ahead without the firewall change. The application can't reach its backend. On-call phones are ringing. The incident commander declares P1. You can invoke the emergency change procedure — but it bypasses review steps and will be audited afterwards.",
+    "baseWeight": 7,
+    "cooldown": 40,
+    "conditions": [
+      {
+        "param": "stress",
+        "op": ">=",
+        "value": 50
+      }
+    ],
+    "actions": [
+      {
+        "id": "prod-emergency-p1",
+        "label": "Invoke P1 emergency change — bypass normal queue",
+        "effects": [
+          {
+            "target": "privilege",
+            "delta": 2
+          },
+          {
+            "target": "stress",
+            "delta": 20
+          },
+          {
+            "target": "timeLeft",
+            "delta": -4
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 14
+      },
+      {
+        "id": "prod-emergency-rollback",
+        "label": "Roll back the deployment instead — fix the process first",
+        "effects": [
+          {
+            "target": "stress",
+            "delta": 10
+          },
+          {
+            "target": "security",
+            "delta": -5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -6
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 5
+      },
+      {
+        "id": "prod-emergency-manual",
+        "label": "Have ops manually open the port without going through the process",
+        "effects": [
+          {
+            "target": "security",
+            "delta": 20
+          },
+          {
+            "target": "stress",
+            "delta": 25
+          },
+          {
+            "target": "timeLeft",
+            "delta": -2
+          }
+        ],
+        "cooldown": 2,
+        "scoreImpact": 0
+      }
+    ]
+  },
+  {
+    "id": "network-architect-review",
+    "title": "Senior Network Architect Demands a Review",
+    "description": "The ticket has been escalated to the principal network architect — a sign it's either unusually complex or politically charged. She wants a one-hour call to walk through the full architecture. She is known for finding problems nobody else noticed, and for being persuadable by solid technical reasoning.",
+    "baseWeight": 8,
+    "cooldown": 45,
+    "conditions": [
+      {
+        "param": "privilege",
+        "op": ">=",
+        "value": 3
+      },
+      {
+        "param": "bureaucracy",
+        "op": "<=",
+        "value": 70
+      }
+    ],
+    "actions": [
+      {
+        "id": "network-architect-review-thorough",
+        "label": "Prepare thoroughly and present the full technical case",
+        "effects": [
+          {
+            "target": "privilege",
+            "delta": 2
+          },
+          {
+            "target": "bureaucracy",
+            "delta": -10
+          },
+          {
+            "target": "stress",
+            "delta": 10
+          },
+          {
+            "target": "timeLeft",
+            "delta": -10
+          }
+        ],
+        "cooldown": 7,
+        "scoreImpact": 18
+      },
+      {
+        "id": "network-architect-review-ticket",
+        "label": "Send the ticket and let her read it herself",
+        "effects": [
+          {
+            "target": "privilege",
+            "delta": 1
+          },
+          {
+            "target": "timeLeft",
+            "delta": -6
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 8
+      },
+      {
+        "id": "network-architect-review-manager",
+        "label": "Ask your manager to run interference",
+        "effects": [
+          {
+            "target": "influence",
+            "delta": 10
+          },
+          {
+            "target": "stress",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -4
+          }
+        ],
+        "cooldown": 4,
+        "scoreImpact": 5
+      }
+    ]
+  },
+  {
+    "id": "security-final-signoff",
+    "title": "Security Needs a Final Sign-off Call",
+    "description": "One signature away. The security engineer has reviewed all documentation and the pen test results. She wants a final 30-minute call: confirm the service owner, verify monitoring is in place on the port, and ensure alerting will fire if unexpected traffic appears.",
+    "baseWeight": 7,
+    "cooldown": 45,
+    "conditions": [
+      {
+        "param": "privilege",
+        "op": ">=",
+        "value": 3
+      },
+      {
+        "param": "security",
+        "op": "<=",
+        "value": 60
+      }
+    ],
+    "actions": [
+      {
+        "id": "security-final-signoff-call",
+        "label": "Schedule the call and prepare monitoring evidence",
+        "effects": [
+          {
+            "target": "privilege",
+            "delta": 1
+          },
+          {
+            "target": "security",
+            "delta": -10
+          },
+          {
+            "target": "timeLeft",
+            "delta": -8
+          }
+        ],
+        "cooldown": 6,
+        "scoreImpact": 15
+      },
+      {
+        "id": "security-final-signoff-email",
+        "label": "Send the monitoring config over email instead",
+        "effects": [
+          {
+            "target": "security",
+            "delta": -5
+          },
+          {
+            "target": "bureaucracy",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -5
+          }
+        ],
+        "cooldown": 4,
+        "scoreImpact": 7
+      },
+      {
+        "id": "security-final-signoff-conditional",
+        "label": "Say monitoring is 'in progress' — ask for conditional approval",
+        "effects": [
+          {
+            "target": "security",
+            "delta": 5
+          },
+          {
+            "target": "stress",
+            "delta": 15
+          },
+          {
+            "target": "timeLeft",
+            "delta": -4
+          }
+        ],
+        "cooldown": 3,
+        "scoreImpact": 4
+      }
+    ]
+  },
+  {
+    "id": "cab-presentation",
+    "title": "CAB Meeting: Present the Actual Firewall Rule",
+    "description": "The Change Advisory Board has your ticket on the agenda. The chair asks you to read the proposed rule aloud: 'permit tcp 10.20.30.0/24 host 192.168.1.50 eq 8443'. Board members question the destination IP, the port justification, and the monitoring plan. Every answer matters.",
+    "baseWeight": 8,
+    "cooldown": 45,
+    "conditions": [
+      {
+        "param": "privilege",
+        "op": ">=",
+        "value": 3
+      },
+      {
+        "param": "bureaucracy",
+        "op": "<=",
+        "value": 70
+      }
+    ],
+    "actions": [
+      {
+        "id": "cab-presentation-confident",
+        "label": "Present with full documentation and answer everything",
+        "effects": [
+          {
+            "target": "privilege",
+            "delta": 2
+          },
+          {
+            "target": "bureaucracy",
+            "delta": -10
+          },
+          {
+            "target": "stress",
+            "delta": 10
+          },
+          {
+            "target": "timeLeft",
+            "delta": -10
+          }
+        ],
+        "cooldown": 7,
+        "scoreImpact": 18
+      },
+      {
+        "id": "cab-presentation-data",
+        "label": "Walk through the data — defer on monitoring gaps",
+        "effects": [
+          {
+            "target": "privilege",
+            "delta": 1
+          },
+          {
+            "target": "timeLeft",
+            "delta": -6
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 8
+      },
+      {
+        "id": "cab-presentation-urgency",
+        "label": "Lead with urgency — request deferred approval on conditions",
+        "effects": [
+          {
+            "target": "privilege",
+            "delta": 2
+          },
+          {
+            "target": "stress",
+            "delta": 20
+          },
+          {
+            "target": "bureaucracy",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -4
+          }
+        ],
+        "cooldown": 4,
+        "scoreImpact": 12
+      }
+    ]
+  },
+  {
+    "id": "out-of-hours-push",
+    "title": "Firewall Admin Is Ready — It's Friday Night",
+    "description": "All approvals are in. The firewall admin is starting the maintenance window now. He pings you: 'Need you on the bridge call in case issues arise. Starting in 20 minutes.' It's 11pm on Friday. You're tired. But this is the implementation window.",
+    "baseWeight": 6,
+    "cooldown": 50,
+    "conditions": [
+      {
+        "param": "privilege",
+        "op": ">=",
+        "value": 4
+      },
+      {
+        "param": "security",
+        "op": "<=",
+        "value": 65
+      }
+    ],
+    "actions": [
+      {
+        "id": "out-of-hours-push-join",
+        "label": "Join the call and see the implementation through",
+        "effects": [
+          {
+            "target": "privilege",
+            "delta": 2
+          },
+          {
+            "target": "stress",
+            "delta": 15
+          },
+          {
+            "target": "timeLeft",
+            "delta": -6
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 16
+      },
+      {
+        "id": "out-of-hours-push-async",
+        "label": "Sign off async and trust the process",
+        "effects": [
+          {
+            "target": "privilege",
+            "delta": 1
+          },
+          {
+            "target": "timeLeft",
+            "delta": -3
+          }
+        ],
+        "cooldown": 4,
+        "scoreImpact": 8
+      },
+      {
+        "id": "out-of-hours-push-reschedule",
+        "label": "Ask to reschedule to next week's window",
+        "effects": [
+          {
+            "target": "bureaucracy",
+            "delta": 10
+          },
+          {
+            "target": "stress",
+            "delta": -5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -8
+          }
+        ],
+        "cooldown": 6,
+        "scoreImpact": 1
+      }
+    ]
+  },
+  {
+    "id": "connectivity-test",
+    "title": "Rule Is Live — Time to Verify the Port",
+    "description": "The firewall admin messages: 'Rule 1337 pushed — permit tcp 10.20.30.0/24 host 192.168.1.50 eq 8443 — ACTIVE.' You open a terminal on the app server. `telnet 192.168.1.50 8443`. The cursor blinks. This is the moment you've been working toward.",
+    "baseWeight": 7,
+    "cooldown": 40,
+    "conditions": [
+      {
+        "param": "privilege",
+        "op": ">=",
+        "value": 4
+      },
+      {
+        "param": "security",
+        "op": "<=",
+        "value": 60
+      },
+      {
+        "param": "bureaucracy",
+        "op": "<=",
+        "value": 65
+      }
+    ],
+    "actions": [
+      {
+        "id": "connectivity-test-full",
+        "label": "Run telnet, nmap, and curl — document all results",
+        "effects": [
+          {
+            "target": "privilege",
+            "delta": 1
+          },
+          {
+            "target": "security",
+            "delta": -5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -5
+          }
+        ],
+        "cooldown": 4,
+        "scoreImpact": 14
+      },
+      {
+        "id": "connectivity-test-quick",
+        "label": "Quick telnet test — connected, good enough",
+        "effects": [
+          {
+            "target": "timeLeft",
+            "delta": -2
+          }
+        ],
+        "cooldown": 2,
+        "scoreImpact": 6
+      },
+      {
+        "id": "connectivity-test-colleague",
+        "label": "Ask a colleague to verify independently",
+        "effects": [
+          {
+            "target": "influence",
+            "delta": 5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -4
+          }
+        ],
+        "cooldown": 3,
+        "scoreImpact": 8
+      }
+    ]
+  },
+  {
+    "id": "deadline-extended",
+    "title": "Product Team Pushes the Launch Date",
+    "description": "A Slack message from the product manager: 'Good news — sprint got extended. Feature launch pushed back two weeks. No rush on your end.' This is pure luck, but you'll take it. The approval window just got wider.",
+    "baseWeight": 6,
+    "cooldown": 70,
+    "conditions": [],
+    "actions": [
+      {
+        "id": "deadline-extended-strategic",
+        "label": "Acknowledge and use the extra time strategically",
+        "effects": [
+          {
+            "target": "timeLeft",
+            "delta": 10
+          },
+          {
+            "target": "stress",
+            "delta": -10
+          }
+        ],
+        "cooldown": 3,
+        "scoreImpact": 5
+      },
+      {
+        "id": "deadline-extended-confirm",
+        "label": "Ask for formal confirmation in the ticket",
+        "effects": [
+          {
+            "target": "timeLeft",
+            "delta": 7
+          },
+          {
+            "target": "bureaucracy",
+            "delta": 5
+          }
+        ],
+        "cooldown": 3,
+        "scoreImpact": 8
+      }
+    ]
+  },
+  {
+    "id": "manager-buys-time",
+    "title": "Manager Negotiates a Review Extension",
+    "description": "Your manager went to bat for you in the department heads meeting. 'I got them to hold the review open for another week,' she says. 'Don't waste it.' Political capital was spent on your behalf — make it count.",
+    "baseWeight": 5,
+    "cooldown": 70,
+    "conditions": [
+      {
+        "param": "privilege",
+        "op": ">=",
+        "value": 2
+      }
+    ],
+    "actions": [
+      {
+        "id": "manager-buys-time-advance",
+        "label": "Thank her and immediately push the key blockers forward",
+        "effects": [
+          {
+            "target": "timeLeft",
+            "delta": 10
+          },
+          {
+            "target": "stress",
+            "delta": -5
+          }
+        ],
+        "cooldown": 4,
+        "scoreImpact": 10
+      },
+      {
+        "id": "manager-buys-time-polish",
+        "label": "Use the time to polish the documentation",
+        "effects": [
+          {
+            "target": "timeLeft",
+            "delta": 4
+          },
+          {
+            "target": "security",
+            "delta": -5
+          },
+          {
+            "target": "bureaucracy",
+            "delta": -5
+          }
+        ],
+        "cooldown": 5,
+        "scoreImpact": 12
+      }
+    ]
+  },
+  {
+    "id": "network-slot-opened",
+    "title": "Earlier Maintenance Window Just Freed Up",
+    "description": "The firewall admin messages: 'Someone cancelled their slot in Thursday's change window — three days earlier than yours. If your approvals are in by EOD Wednesday I can fit you in.' A compressed scramble, but it means the rule goes live sooner.",
+    "baseWeight": 5,
+    "cooldown": 65,
+    "conditions": [
+      {
+        "param": "bureaucracy",
+        "op": "<=",
+        "value": 55
+      }
+    ],
+    "actions": [
+      {
+        "id": "network-slot-opened-take",
+        "label": "Scramble to meet the Wednesday deadline",
+        "effects": [
+          {
+            "target": "timeLeft",
+            "delta": 8
+          },
+          {
+            "target": "stress",
+            "delta": 15
+          }
+        ],
+        "cooldown": 4,
+        "scoreImpact": 14
+      },
+      {
+        "id": "network-slot-opened-decline",
+        "label": "Decline — stick with the scheduled slot",
+        "effects": [
+          {
+            "target": "stress",
+            "delta": -5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -2
+          }
+        ],
+        "cooldown": 2,
+        "scoreImpact": 1
+      }
+    ]
+  },
+  {
+    "id": "port-open",
+    "title": "Connection Established — The Port Is Open",
+    "description": "The terminal doesn't lie: 'Connected to 192.168.1.50. Escape character is \\'^]\\'.' The port is open. Traffic is flowing. The application responds. You close CHG0042731 as 'Successfully Implemented' and send the message everyone has been waiting for: 'The port is open.'",
+    "baseWeight": 10,
+    "cooldown": 0,
+    "terminal": true,
+    "terminalOutcome": "win",
+    "conditions": [
+      {
+        "param": "privilege",
+        "op": ">=",
+        "value": 5
+      },
+      {
+        "param": "security",
+        "op": "<=",
+        "value": 70
+      },
+      {
+        "param": "bureaucracy",
+        "op": "<=",
+        "value": 70
+      },
+      {
+        "param": "timeLeft",
+        "op": ">",
+        "value": 0
+      }
+    ],
+    "actions": [
+      {
+        "id": "port-open-document",
+        "label": "Close the ticket and document the full change",
+        "effects": [
+          {
+            "target": "stress",
+            "delta": -20
+          },
+          {
+            "target": "timeLeft",
+            "delta": -2
+          }
+        ],
+        "cooldown": 0,
+        "scoreImpact": 20
+      },
+      {
+        "id": "port-open-celebrate",
+        "label": "Post 'port is open' in Slack and write a post-mortem",
+        "effects": [
+          {
+            "target": "stress",
+            "delta": -25
+          },
+          {
+            "target": "influence",
+            "delta": 10
+          },
+          {
+            "target": "timeLeft",
+            "delta": -3
+          }
+        ],
+        "cooldown": 0,
+        "scoreImpact": 30
+      }
+    ]
+  },
+  {
+    "id": "port-blocked",
+    "title": "Request Formally Denied — Port Stays Closed",
+    "description": "The security committee has issued its final decision: the firewall rule will not be implemented. The risk profile is outside the organization's risk tolerance. CHG0042731 is marked 'Rejected'. The port remains closed. Your application will need to be redesigned around an approved port.",
+    "baseWeight": 12,
+    "cooldown": 0,
+    "terminal": true,
+    "terminalOutcome": "lose",
+    "conditions": [
+      {
+        "param": "security",
+        "op": ">=",
+        "value": 85
+      }
+    ],
+    "actions": [
+      {
+        "id": "port-blocked-accept",
+        "label": "Accept the decision and begin redesigning",
+        "effects": [
+          {
+            "target": "stress",
+            "delta": -10
+          },
+          {
+            "target": "timeLeft",
+            "delta": -2
+          }
+        ],
+        "cooldown": 0,
+        "scoreImpact": -5
+      },
+      {
+        "id": "port-blocked-appeal",
+        "label": "File a formal written appeal to the CISO",
+        "effects": [
+          {
+            "target": "stress",
+            "delta": 10
+          },
+          {
+            "target": "timeLeft",
+            "delta": -2
+          }
+        ],
+        "cooldown": 0,
+        "scoreImpact": 0
+      }
+    ]
+  },
+  {
+    "id": "ticket-expired",
+    "title": "Ticket Auto-Closed — Bureaucratic Expiration",
+    "description": "CHG0042731 has been automatically closed after 90 days in the approval queue without progression. Network team policy: stale tickets close without action. You would need to resubmit from scratch — but there's no time left. The firewall rule was never written. The port stays closed.",
+    "baseWeight": 10,
+    "cooldown": 0,
+    "terminal": true,
+    "terminalOutcome": "lose",
+    "conditions": [
+      {
+        "param": "bureaucracy",
+        "op": ">=",
+        "value": 90
+      }
+    ],
+    "actions": [
+      {
+        "id": "ticket-expired-accept",
+        "label": "Accept the system's decision",
+        "effects": [
+          {
+            "target": "stress",
+            "delta": -5
+          },
+          {
+            "target": "timeLeft",
+            "delta": -2
+          }
+        ],
+        "cooldown": 0,
+        "scoreImpact": -5
+      },
+      {
+        "id": "ticket-expired-reopen",
+        "label": "Attempt to reopen the ticket manually",
+        "effects": [
+          {
+            "target": "stress",
+            "delta": 20
+          },
+          {
+            "target": "timeLeft",
+            "delta": -2
+          }
+        ],
+        "cooldown": 0,
+        "scoreImpact": 0
+      }
+    ]
+  }
+]
