@@ -25,11 +25,11 @@ const ConditionSchema = z.object({
 })
 
 const EventSchema = z.object({
-  id:              z.string(),
-  title:           z.string(),
-  description:     z.string(),
-  baseWeight:      z.number(),
-  cooldown:        z.number(),
+  id:              z.string().min(1).regex(/^[a-z0-9-_]+$/, 'ID must be lowercase letters, numbers, hyphens or underscores'),
+  title:           z.string().min(1),
+  description:     z.string().min(1),
+  baseWeight:      z.number().positive(),
+  cooldown:        z.number().min(0),
   terminal:        z.boolean().optional(),
   terminalOutcome: z.enum(['win', 'lose']).optional(),
   conditions:      z.array(ConditionSchema).default([]),
@@ -37,6 +37,10 @@ const EventSchema = z.object({
   createdByCsv:    z.boolean().optional(),
   csvNumber:       z.number().int().optional(),
 })
+
+function safeParse<T>(json: string, fallback: T): T {
+  try { return JSON.parse(json) } catch { return fallback }
+}
 
 function rowToEvent(row: typeof events.$inferSelect) {
   return {
@@ -47,8 +51,8 @@ function rowToEvent(row: typeof events.$inferSelect) {
     cooldown:        row.cooldown,
     terminal:        row.terminal ?? undefined,
     terminalOutcome: (row.terminalOutcome as 'win' | 'lose' | undefined) ?? undefined,
-    conditions:      JSON.parse(row.conditions),
-    actions:         JSON.parse(row.actions),
+    conditions:      safeParse(row.conditions, []),
+    actions:         safeParse(row.actions, []),
     createdByCsv:    row.createdByCsv ?? undefined,
     csvNumber:       row.csvNumber ?? undefined,
   }

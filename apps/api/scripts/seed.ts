@@ -25,7 +25,9 @@ sqlite.exec(`
     terminal         INTEGER,
     terminal_outcome TEXT,
     conditions       TEXT NOT NULL DEFAULT '[]',
-    actions          TEXT NOT NULL DEFAULT '[]'
+    actions          TEXT NOT NULL DEFAULT '[]',
+    created_by_csv   INTEGER,
+    csv_number       INTEGER
   )
 `)
 
@@ -52,6 +54,8 @@ for (const ev of eventsJson) {
     terminalOutcome: ev.terminalOutcome ?? null,
     conditions:      JSON.stringify(ev.conditions ?? []),
     actions:         JSON.stringify(ev.actions ?? []),
+    createdByCsv:    null,
+    csvNumber:       null,
   }).run()
 }
 

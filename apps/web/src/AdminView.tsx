@@ -4,7 +4,7 @@ import Papa from 'papaparse'
 import type { Event, Action, Condition, Effect } from 'shared'
 import './admin.css'
 
-const API = '/api/events'
+const API = `${import.meta.env.VITE_API_BASE ?? ''}/api/events`
 
 type GameStateKey = 'timeLeft' | 'stress' | 'privilege' | 'bureaucracy' | 'security' | 'influence' | 'score'
 const STATE_KEYS: GameStateKey[] = ['timeLeft', 'stress', 'privilege', 'bureaucracy', 'security', 'influence', 'score']
@@ -216,7 +216,7 @@ function ActionEditor({
         {action.effects.map((ef, i) => (
           <EffectRow key={i} effect={ef} onChange={e => updateEffect(i, e)} onRemove={() => removeEffect(i)} />
         ))}
-        <button className="btn-add" onClick={() => setField('effects', [...action.effects, { target: 'stress', delta: 0 }])}>
+        <button className="btn-add" onClick={() => setField('effects', [...action.effects, { target: STATE_KEYS[0], delta: 0 }])}>
           + effect
         </button>
       </div>
