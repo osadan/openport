@@ -5,3 +5,8 @@ dist/
 .DS_Store
 *.log
 .pnpm-debug.log*
+
+# SQLite runtime DB (seeded on deploy via pnpm run seed)
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
