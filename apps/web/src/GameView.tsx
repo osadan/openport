@@ -103,7 +103,7 @@ function ActionBtn({
       {imp !== 0 && (
         <span className={`action-btn__score ${scoreClass}`}>{scoreText} pts</span>
       )}
-      <span className="action-btn__arrow">→</span>
+      <span className="action-btn__arrow">←</span>
     </button>
   )
 }
@@ -207,7 +207,7 @@ function OutcomeScreen({ outcome, score, onRestart }: { outcome: string; score: 
         <div className="outcome__headline">{headline}</div>
         <div className="outcome__sub">{sub}</div>
 
-        <div className="start__terminal" style={{ textAlign: 'left' }}>
+        <div className="start__terminal">
           {terminal.map((line, i) => (
             <div key={i}>
               {i === 0

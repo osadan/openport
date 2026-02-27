@@ -83,7 +83,7 @@ body {
 .topbar__right {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 3px;
   flex-shrink: 0;
 }
@@ -121,7 +121,7 @@ body {
   color: var(--text-muted);
   width: 72px;
   flex-shrink: 0;
-  text-align: right;
+  text-align: start;
 }
 
 .stat__track {
@@ -143,7 +143,7 @@ body {
   font-size: 10px;
   color: var(--text-muted);
   width: 24px;
-  text-align: right;
+  text-align: end;
   flex-shrink: 0;
 }
 
@@ -233,12 +233,12 @@ body {
   padding: 11px 14px;
   background: var(--surface-2);
   border: 1px solid var(--border);
-  border-left: 3px solid transparent;
+  border-inline-start: 3px solid transparent;
   border-radius: var(--radius);
   color: var(--text);
   font-family: var(--sans);
   font-size: 13.5px;
-  text-align: left;
+  text-align: start;
   cursor: pointer;
   transition: background .15s, border-color .15s, color .15s, transform .1s;
 }
@@ -246,13 +246,13 @@ body {
 .action-btn:hover:not(:disabled) {
   background: var(--surface-3);
   border-color: var(--border-2);
-  border-left-color: var(--blue);
+  border-inline-start-color: var(--blue);
   color: var(--text-bright);
-  transform: translateX(3px);
+  transform: translateX(-3px);
 }
 
 .action-btn:active:not(:disabled) {
-  transform: translateX(3px) scale(.99);
+  transform: translateX(-3px) scale(.99);
 }
 
 .action-btn:disabled {
@@ -272,7 +272,7 @@ body {
 
 .action-btn:hover:not(:disabled) .action-btn__arrow {
   opacity: 1;
-  transform: translateX(2px);
+  transform: translateX(-2px);
 }
 
 .action-btn__score {
@@ -376,6 +376,7 @@ body {
   border-radius: var(--radius);
   padding: 14px 18px;
   width: 100%;
+  direction: ltr;
   text-align: left;
   font-family: var(--mono);
   font-size: 12px;

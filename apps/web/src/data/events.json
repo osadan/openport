@@ -1,15 +1,15 @@
 [
   {
     "id": "firewall-ticket",
-    "title": "Open the Change Request Ticket",
-    "description": "Your application can't reach its backend because the corporate firewall blocks the port by default. You open ticket CHG0042731 in ServiceNow. The form demands: port number, protocol, source subnet, destination subnet, and business justification. Every field will be scrutinized.",
+    "title": "פתיחת קריאת שינוי בServiceNow",
+    "description": "האפליקציה לא מצליחה להגיע לשרת הגב כי הפיירוול הארגוני חוסם את הפורט כברירת מחדל. אתה פותח קריאה CHG0042731 בServiceNow. הטופס דורש: מספר פורט, פרוטוקול, סאבנט מקור, סאבנט יעד, והצדקה עסקית. כל שדה ייבחן לעומק.",
     "baseWeight": 15,
     "cooldown": 30,
     "conditions": [],
     "actions": [
       {
         "id": "firewall-ticket-thorough",
-        "label": "Fill out every field with precision",
+        "label": "למלא כל שדה בדיוק מרבי",
         "effects": [
           {
             "target": "bureaucracy",
@@ -25,7 +25,7 @@
       },
       {
         "id": "firewall-ticket-minimal",
-        "label": "Fill mandatory fields, skip the optional ones",
+        "label": "למלא רק שדות חובה ולדלג על האופציונליים",
         "effects": [
           {
             "target": "stress",
@@ -45,7 +45,7 @@
       },
       {
         "id": "firewall-ticket-template",
-        "label": "Clone a recently approved ticket as a template",
+        "label": "לשכפל קריאה שאושרה לאחרונה כתבנית",
         "effects": [
           {
             "target": "security",
@@ -67,15 +67,15 @@
   },
   {
     "id": "network-path-question",
-    "title": "Network Team Needs the Full Traffic Path",
-    "description": "The firewall engineers bounce your ticket back: 'Insufficient detail. We need a hop-by-hop trace — source host, source subnet, firewall cluster name, destination host, destination subnet, with actual IPs. Hostnames are not enough.' Every field matters.",
+    "title": "צוות הרשת דורש את נתיב התעבורה המלא",
+    "description": "מהנדסי הפיירוול מחזירים את הקריאה: 'פרטים לא מספיקים. אנחנו צריכים מעקב hop-by-hop — מארח מקור, סאבנט מקור, שם אשכול הפיירוול, מארח יעד, סאבנט יעד, עם כתובות IP בפועל. שמות host לא מספיקים.' כל שדה קריטי.",
     "baseWeight": 12,
     "cooldown": 30,
     "conditions": [],
     "actions": [
       {
         "id": "network-path-question-diagram",
-        "label": "Produce a precise network diagram with all IPs",
+        "label": "להכין דיאגרמת רשת מדויקת עם כל כתובות ה-IP",
         "effects": [
           {
             "target": "security",
@@ -95,7 +95,7 @@
       },
       {
         "id": "network-path-question-vlan",
-        "label": "Reply with hostnames and VLAN information",
+        "label": "לענות עם שמות host ומידע על ה-VLAN",
         "effects": [
           {
             "target": "security",
@@ -111,7 +111,7 @@
       },
       {
         "id": "network-path-question-lookup",
-        "label": "Ask the network team to look up the IPs themselves",
+        "label": "לבקש מצוות הרשת לאתר את כתובות ה-IP בעצמם",
         "effects": [
           {
             "target": "stress",
@@ -133,15 +133,15 @@
   },
   {
     "id": "tcp-vs-udp",
-    "title": "TCP or UDP? The Network Team Asks",
-    "description": "Your ticket says 'port 8443' but the reply is blunt: 'Protocol unspecified. TCP? UDP? Both? We won't write a rule until you confirm.' It seems pedantic. But a wrong protocol means the rule either does nothing or blows open a larger surface than intended.",
+    "title": "TCP או UDP? צוות הרשת שואל",
+    "description": "בקריאה כתבת 'פורט 8443' אבל התשובה חדה: 'פרוטוקול לא צוין. TCP? UDP? שניהם? לא נכתוב חוק עד שתאשרו.' זה נשמע פדנטי. אבל פרוטוקול שגוי אומר שהחוק לא יעשה כלום — או יפתח משטח תקיפה רחב יותר ממה שרצית.",
     "baseWeight": 12,
     "cooldown": 25,
     "conditions": [],
     "actions": [
       {
         "id": "tcp-vs-udp-confirm",
-        "label": "Confirm TCP — document why (stateful, connection-oriented)",
+        "label": "לאשר TCP ולתעד למה (stateful, connection-oriented)",
         "effects": [
           {
             "target": "security",
@@ -157,7 +157,7 @@
       },
       {
         "id": "tcp-vs-udp-both",
-        "label": "Request both TCP and UDP to be safe",
+        "label": "לבקש גם TCP וגם UDP כדי להיות בטוחים",
         "effects": [
           {
             "target": "security",
@@ -177,7 +177,7 @@
       },
       {
         "id": "tcp-vs-udp-hold",
-        "label": "Put the ticket on hold while you check with the app team",
+        "label": "להכניס את הקריאה ל-Hold בזמן שמתאמתים עם צוות האפליקציה",
         "effects": [
           {
             "target": "bureaucracy",
@@ -199,15 +199,15 @@
   },
   {
     "id": "justify-business-need",
-    "title": "Security Demands a Formal Business Justification",
-    "description": "The InfoSec team won't review the rule until the ticket includes a written justification: what application uses this port, why the standard HTTPS port is insufficient, what data classification flows over it, and who signs as business owner. One paragraph won't do.",
+    "title": "אבטחת מידע דורשת הצדקה עסקית פורמלית",
+    "description": "צוות InfoSec לא יסקור את הבקשה עד שהקריאה תכלול הצדקה בכתב: איזו אפליקציה משתמשת בפורט הזה, למה פורט HTTPS הסטנדרטי לא מספיק, איזה סיווג מידע עובר בו, ומי החותם כבעל עסק. פסקה אחת לא תספיק.",
     "baseWeight": 12,
     "cooldown": 30,
     "conditions": [],
     "actions": [
       {
         "id": "justify-business-need-thorough",
-        "label": "Write a thorough justification with data classification",
+        "label": "לכתוב הצדקה מפורטת עם סיווג המידע",
         "effects": [
           {
             "target": "security",
@@ -227,7 +227,7 @@
       },
       {
         "id": "justify-business-need-jira",
-        "label": "Paste the JIRA ticket link as the justification",
+        "label": "להדביק לינק לטיקט ה-JIRA בתור ההצדקה",
         "effects": [
           {
             "target": "stress",
@@ -247,7 +247,7 @@
       },
       {
         "id": "justify-business-need-pm",
-        "label": "Ask the product manager to write it",
+        "label": "לבקש מהפרודקט מנג׳ר לכתוב את זה",
         "effects": [
           {
             "target": "influence",
@@ -265,15 +265,15 @@
   },
   {
     "id": "source-ip-scope",
-    "title": "Security Asks: Which Source IPs Need Access?",
-    "description": "'permit tcp any any eq 8443' will never be approved. The security engineer explains: the rule must be scoped to specific source IP ranges. Narrower means less attack surface. But the narrower you go, the harder it is to define correctly without breaking something.",
+    "title": "אבטחה שואלת: אילו כתובות IP מקור צריכות גישה?",
+    "description": "'permit tcp any any eq 8443' לא יאושר אף פעם. מהנדס האבטחה מסביר: הכלל חייב להיות מוגבל לטווחי IP ספציפיים. ככל שמצמצמים יותר, משטח התקיפה קטן יותר. אבל ככל שמצמצמים, קשה יותר להגדיר נכון בלי לשבור משהו.",
     "baseWeight": 10,
     "cooldown": 30,
     "conditions": [],
     "actions": [
       {
         "id": "source-ip-scope-exact",
-        "label": "Scope to exact source IPs with written justification",
+        "label": "להגביל לכתובות IP מדויקות עם הצדקה בכתב",
         "effects": [
           {
             "target": "security",
@@ -293,7 +293,7 @@
       },
       {
         "id": "source-ip-scope-subnet",
-        "label": "Scope to the source /24 subnet",
+        "label": "להגביל לסאבנט /24 של המקור",
         "effects": [
           {
             "target": "security",
@@ -309,7 +309,7 @@
       },
       {
         "id": "source-ip-scope-any",
-        "label": "Request any-source access to simplify future changes",
+        "label": "לבקש גישה מכל מקור כדי לפשט שינויים עתידיים",
         "effects": [
           {
             "target": "security",
@@ -327,15 +327,15 @@
   },
   {
     "id": "firewall-rule-draft",
-    "title": "Write the ACL Rule Yourself",
-    "description": "The firewall admin asks you to draft the actual rule syntax for review: something like 'access-list INBOUND permit tcp 10.20.30.0/24 host 192.168.1.50 eq 8443'. One typo and traffic is silently dropped. Get the object names, subnet masks, and direction exactly right.",
+    "title": "לכתוב את חוק ה-ACL בעצמך",
+    "description": "מנהל הפיירוול מבקש ממך לנסח את תחביר הכלל בפועל לבדיקה: משהו כמו 'access-list INBOUND permit tcp 10.20.30.0/24 host 192.168.1.50 eq 8443'. טעות קטנה ותעבורה תיחסם בשקט. תקבל נכון את שמות האובייקטים, מסיכות הסאבנט, והכיוון.",
     "baseWeight": 10,
     "cooldown": 35,
     "conditions": [],
     "actions": [
       {
         "id": "firewall-rule-draft-peer-review",
-        "label": "Draft it and have a network engineer peer-review it",
+        "label": "לנסח ולבקש ממהנדס רשת לעשות peer review",
         "effects": [
           {
             "target": "security",
@@ -355,7 +355,7 @@
       },
       {
         "id": "firewall-rule-draft-solo",
-        "label": "Write it yourself and submit directly",
+        "label": "לכתוב בעצמך ולהגיש ישירות",
         "effects": [
           {
             "target": "stress",
@@ -375,7 +375,7 @@
       },
       {
         "id": "firewall-rule-draft-delegate",
-        "label": "Ask the firewall admin to draft it from your description",
+        "label": "לבקש ממנהל הפיירוול לנסח על פי התיאור שלך",
         "effects": [
           {
             "target": "bureaucracy",
@@ -393,15 +393,15 @@
   },
   {
     "id": "existing-deny-rule",
-    "title": "An Existing DENY Rule Already Covers Your Port",
-    "description": "The firewall admin pulls up the rule base. Rule 47: 'deny tcp any any eq 8443 — applied globally, set four years ago, owner unknown'. A permit rule added below it will do nothing. You need to either get rule 47 removed, narrowed, or override it with a higher-priority exception.",
+    "title": "כבר קיים חוק DENY שמכסה את הפורט שלך",
+    "description": "מנהל הפיירוול פותח את בסיס הכללים. כלל 47: 'deny tcp any any eq 8443 — מוחל גלובלית, הוגדר לפני ארבע שנים, הבעלים לא ידוע'. חוק permit שיתווסף מתחתיו לא יעשה כלום. צריך לגרום להסרת כלל 47, לצמצמו, או לעקוף אותו עם חריג בעדיפות גבוהה יותר.",
     "baseWeight": 10,
     "cooldown": 35,
     "conditions": [],
     "actions": [
       {
         "id": "existing-deny-rule-owner",
-        "label": "Track down rule 47's original owner and get sign-off",
+        "label": "לאתר את הבעלים המקורי של כלל 47 ולקבל אישורו",
         "effects": [
           {
             "target": "privilege",
@@ -421,7 +421,7 @@
       },
       {
         "id": "existing-deny-rule-exception",
-        "label": "Submit a policy exception to place your rule above rule 47",
+        "label": "להגיש חריג מדיניות שיציב את הכלל שלך מעל כלל 47",
         "effects": [
           {
             "target": "privilege",
@@ -445,7 +445,7 @@
       },
       {
         "id": "existing-deny-rule-narrow",
-        "label": "Request rule 47 be narrowed to exclude your IP range",
+        "label": "לבקש לצמצם את כלל 47 כך שיחריג את טווח ה-IP שלך",
         "effects": [
           {
             "target": "security",
@@ -467,8 +467,8 @@
   },
   {
     "id": "port-scan-alert",
-    "title": "Automated Scanner Flags Your Proposed Port",
-    "description": "Nessus ran its weekly scan and flagged the port in your change request: 'HIGH — non-standard inbound port, service not in CMDB, commonly targeted by scanners.' InfoSec is now asking whether the service is hardened and whether TLS termination is enforced on this port.",
+    "title": "סורק אוטומטי מסמן את הפורט שביקשת",
+    "description": "Nessus הריץ את הסריקה השבועית וסימן את הפורט בבקשת השינוי שלך: 'HIGH — פורט inbound לא סטנדרטי, השירות לא קיים ב-CMDB, ממוקד לעתים קרובות על ידי סורקים.' InfoSec שואל עכשיו אם השירות מוקשח ואם TLS termination מופעל על הפורט הזה.",
     "baseWeight": 10,
     "cooldown": 35,
     "conditions": [
@@ -481,7 +481,7 @@
     "actions": [
       {
         "id": "port-scan-alert-harden",
-        "label": "Provide hardening docs and TLS certificate evidence",
+        "label": "לספק תיעוד הקשחה וראיות לאישור TLS",
         "effects": [
           {
             "target": "security",
@@ -497,7 +497,7 @@
       },
       {
         "id": "port-scan-alert-false-positive",
-        "label": "Argue the finding is a false positive",
+        "label": "לטעון שהממצא הוא false positive",
         "effects": [
           {
             "target": "security",
@@ -517,7 +517,7 @@
       },
       {
         "id": "port-scan-alert-add-tls",
-        "label": "Agree to add TLS enforcement and resubmit",
+        "label": "להסכים להוסיף אכיפת TLS ולהגיש מחדש",
         "effects": [
           {
             "target": "security",
@@ -539,8 +539,8 @@
   },
   {
     "id": "maintenance-window",
-    "title": "Firewall Changes Require an Approved Maintenance Window",
-    "description": "The network team confirms approval — but won't push the rule until an approved maintenance window. Production windows are Sunday nights, 2am–6am, scheduled four weeks out. The queue is filling. The next available slot is five weeks away unless you can claim an emergency window.",
+    "title": "שינויי פיירוול דורשים חלון תחזוקה מאושר",
+    "description": "צוות הרשת מאשר את האישור — אבל לא ידחוף את הכלל עד לחלון תחזוקה מאושר. חלונות פרודקשן הם בלילות ראשון, 2–6 בבוקר, ומתוזמנים ארבעה שבועות קדימה. התור מתמלא. הסלוט הפנוי הקרוב הוא בעוד חמישה שבועות — אלא אם תוכל לקבל חלון חירום.",
     "baseWeight": 8,
     "cooldown": 35,
     "conditions": [
@@ -553,7 +553,7 @@
     "actions": [
       {
         "id": "maintenance-window-book",
-        "label": "Book the next standard maintenance slot",
+        "label": "להזמין את סלוט התחזוקה הסטנדרטי הבא",
         "effects": [
           {
             "target": "bureaucracy",
@@ -573,7 +573,7 @@
       },
       {
         "id": "maintenance-window-emergency",
-        "label": "Request an emergency out-of-band window",
+        "label": "לבקש חלון חירום out-of-band",
         "effects": [
           {
             "target": "privilege",
@@ -597,7 +597,7 @@
       },
       {
         "id": "maintenance-window-wait",
-        "label": "Accept the delay — patience is a virtue",
+        "label": "לקבל את העיכוב — סבלנות היא מידה טובה",
         "effects": [
           {
             "target": "bureaucracy",
@@ -619,15 +619,15 @@
   },
   {
     "id": "staging-test",
-    "title": "Policy: Validate in Staging Before Production",
-    "description": "Change management policy requires firewall rule changes to be tested in staging before production. Staging has its own firewall cluster. You need to open the same port there, run connectivity tests, and attach documented results. Only then can the production ticket advance.",
+    "title": "מדיניות: לוודא בסביבת staging לפני פרודקשן",
+    "description": "מדיניות ניהול השינויים מחייבת לבדוק שינויים בחוקי פיירוול ב-staging לפני פרודקשן. ל-staging יש אשכול פיירוול משלו. צריך לפתוח את אותו פורט שם, להריץ בדיקות קישוריות, ולצרף תוצאות מתועדות. רק אז קריאת הפרודקשן תתקדם.",
     "baseWeight": 10,
     "cooldown": 35,
     "conditions": [],
     "actions": [
       {
         "id": "staging-test-full",
-        "label": "Run full validation with documented test results",
+        "label": "להריץ ולידציה מלאה עם תוצאות בדיקה מתועדות",
         "effects": [
           {
             "target": "security",
@@ -651,7 +651,7 @@
       },
       {
         "id": "staging-test-quick",
-        "label": "Quick telnet test, document as passed",
+        "label": "בדיקת telnet מהירה, לתעד כ-passed",
         "effects": [
           {
             "target": "security",
@@ -671,7 +671,7 @@
       },
       {
         "id": "staging-test-skip",
-        "label": "Argue staging doesn't match prod topology — request skip",
+        "label": "לטעון שה-staging לא תואם לטופולוגיית הפרודקשן — לבקש דילוג",
         "effects": [
           {
             "target": "stress",
@@ -693,8 +693,8 @@
   },
   {
     "id": "rollback-plan",
-    "title": "Change Management: Where Is the Rollback Plan?",
-    "description": "The CAB pre-check system bounced your ticket: required field missing — 'Rollback Procedure'. It wants a step-by-step plan for what happens if the firewall rule causes issues: who to call, exact CLI commands to revert the ACL, and the expected recovery time objective.",
+    "title": "ניהול שינויים: איפה תוכנית ה-Rollback?",
+    "description": "מערכת הבדיקות המקדימות של CAB דחתה את הקריאה: שדה חובה חסר — 'נוהל Rollback'. היא רוצה תוכנית שלב-אחר-שלב למה שיקרה אם חוק הפיירוול גורם לבעיות: את מי מתקשרים, פקודות CLI מדויקות לביטול ה-ACL, וזמן ה-RTO הצפוי.",
     "baseWeight": 8,
     "cooldown": 35,
     "conditions": [
@@ -707,7 +707,7 @@
     "actions": [
       {
         "id": "rollback-plan-thorough",
-        "label": "Write a thorough rollback procedure with CLI commands and contacts",
+        "label": "לכתוב נוהל rollback מפורט עם פקודות CLI ואנשי קשר",
         "effects": [
           {
             "target": "bureaucracy",
@@ -727,7 +727,7 @@
       },
       {
         "id": "rollback-plan-minimal",
-        "label": "Write 'remove the ACL rule' and submit",
+        "label": "לכתוב 'להסיר את חוק ה-ACL' ולהגיש",
         "effects": [
           {
             "target": "bureaucracy",
@@ -747,7 +747,7 @@
       },
       {
         "id": "rollback-plan-template",
-        "label": "Copy the rollback section from a recently approved change",
+        "label": "להעתיק את סעיף ה-rollback משינוי שאושר לאחרונה",
         "effects": [
           {
             "target": "bureaucracy",
@@ -765,8 +765,8 @@
   },
   {
     "id": "vulnerability-finding",
-    "title": "Risk Assessment: Port Scored 7.8 — High",
-    "description": "The security team's vulnerability assessment tool scores your request a 7.8 CVSS: non-standard port, service absent from the CMDB, and the destination server has three open CVEs. They want those CVEs remediated and the CMDB entry created before they'll sign off on the firewall rule.",
+    "title": "הערכת סיכונים: הפורט קיבל ציון 7.8 — High",
+    "description": "כלי הערכת הפגיעויות של צוות האבטחה מדרג את הבקשה שלך ב-7.8 CVSS: פורט לא סטנדרטי, השירות לא קיים ב-CMDB, ובשרת היעד שלושה CVE פתוחים. הם רוצים שאלו ה-CVE יטופלו ורשומת ה-CMDB תיווצר לפני שיחתמו על חוק הפיירוול.",
     "baseWeight": 7,
     "cooldown": 40,
     "conditions": [
@@ -779,7 +779,7 @@
     "actions": [
       {
         "id": "vulnerability-finding-patch",
-        "label": "Patch the CVEs and create the CMDB entry",
+        "label": "לתקן את ה-CVE וליצור את רשומת ה-CMDB",
         "effects": [
           {
             "target": "security",
@@ -803,7 +803,7 @@
       },
       {
         "id": "vulnerability-finding-compensating",
-        "label": "Document compensating controls instead of patching",
+        "label": "לתעד בקרות מפצות במקום לתקן",
         "effects": [
           {
             "target": "security",
@@ -823,7 +823,7 @@
       },
       {
         "id": "vulnerability-finding-pushback",
-        "label": "Push back: the CVEs are in unrelated components",
+        "label": "לדחות: ה-CVE הם ברכיבים שלא קשורים",
         "effects": [
           {
             "target": "stress",
@@ -845,8 +845,8 @@
   },
   {
     "id": "firewall-syntax-error",
-    "title": "Firewall Admin Finds an Error in Your ACL Rule",
-    "description": "The firewall admin emails: 'Your rule references a non-existent ACL group name. This is syntactically invalid — the rule would be silently ignored in production.' The mistake is yours. It's been logged in the ticket audit trail and other reviewers can see it.",
+    "title": "מנהל הפיירוול מצא שגיאה בחוק ה-ACL שלך",
+    "description": "מנהל הפיירוול שולח מייל: 'הכלל שלך מפנה לשם קבוצת ACL שלא קיימת. זה לא תקין תחבירית — הכלל יתעלם בשקט בפרודקשן.' הטעות שלך. היא נרשמה ביומן הביקורת של הקריאה וכל הסוקרים יכולים לראות אותה.",
     "baseWeight": 7,
     "cooldown": 40,
     "conditions": [
@@ -859,7 +859,7 @@
     "actions": [
       {
         "id": "firewall-syntax-error-fix-explain",
-        "label": "Fix the error and explain how it happened",
+        "label": "לתקן את השגיאה ולהסביר איך זה קרה",
         "effects": [
           {
             "target": "security",
@@ -883,7 +883,7 @@
       },
       {
         "id": "firewall-syntax-error-fix-silent",
-        "label": "Fix it silently and resubmit without comment",
+        "label": "לתקן בשקט ולהגיש מחדש בלי הסבר",
         "effects": [
           {
             "target": "stress",
@@ -899,7 +899,7 @@
       },
       {
         "id": "firewall-syntax-error-blame",
-        "label": "Blame the template you were given",
+        "label": "להאשים את התבנית שקיבלת",
         "effects": [
           {
             "target": "stress",
@@ -921,8 +921,8 @@
   },
   {
     "id": "compliance-concern",
-    "title": "Compliance Team: This Port May Affect PCI Scope",
-    "description": "Your company is PCI-DSS certified. The compliance officer flags your change: 'Opening an additional inbound port on a PCI-scoped host may expand the cardholder data environment.' They want written evidence that no payment data flows through this port before they'll clear it.",
+    "title": "ציות: הפורט הזה עלול להשפיע על תחולת PCI",
+    "description": "החברה שלך מוסמכת PCI-DSS. קצין הציות מסמן את השינוי שלך: 'פתיחת פורט inbound נוסף על מארח בתחולת PCI עלולה להרחיב את סביבת נתוני כרטיס האשראי.' הם רוצים ראיות בכתב שאין נתוני תשלום שעוברים בפורט הזה לפני שיאשרו.",
     "baseWeight": 6,
     "cooldown": 45,
     "conditions": [
@@ -935,7 +935,7 @@
     "actions": [
       {
         "id": "compliance-concern-scoping",
-        "label": "Produce formal scoping documentation with the security team",
+        "label": "להפיק תיעוד תחולה פורמלי עם צוות האבטחה",
         "effects": [
           {
             "target": "security",
@@ -955,7 +955,7 @@
       },
       {
         "id": "compliance-concern-move-server",
-        "label": "Move the destination server out of PCI scope",
+        "label": "להעביר את שרת היעד מחוץ לתחולת PCI",
         "effects": [
           {
             "target": "security",
@@ -975,7 +975,7 @@
       },
       {
         "id": "compliance-concern-argue",
-        "label": "Argue in writing that this port doesn't touch cardholder data",
+        "label": "לטעון בכתב שהפורט הזה לא נוגע בנתוני בעל כרטיס",
         "effects": [
           {
             "target": "stress",
@@ -997,8 +997,8 @@
   },
   {
     "id": "pen-test-request",
-    "title": "Security Wants to Pen Test the Exposed Port",
-    "description": "InfoSec won't sign off without running a controlled penetration test against the service before the firewall rule goes live. They want to verify the endpoint is hardened. This adds a full cycle — but a clean pen test result would be a strong argument for the CAB.",
+    "title": "אבטחה רוצה לעשות Pen Test על הפורט החשוף",
+    "description": "InfoSec לא יחתום בלי להריץ בדיקת חדירה מבוקרת על השירות לפני שחוק הפיירוול נכנס לתוקף. הם רוצים לוודא שה-endpoint מוקשח. זה מוסיף מחזור מלא — אבל תוצאה נקייה של pen test תהיה טיעון חזק מול ה-CAB.",
     "baseWeight": 6,
     "cooldown": 45,
     "conditions": [
@@ -1011,7 +1011,7 @@
     "actions": [
       {
         "id": "pen-test-request-schedule",
-        "label": "Schedule and facilitate the pen test",
+        "label": "לתזמן ולסייע בביצוע ה-pen test",
         "effects": [
           {
             "target": "security",
@@ -1035,7 +1035,7 @@
       },
       {
         "id": "pen-test-request-previous",
-        "label": "Share previous pen test results from six months ago",
+        "label": "לשתף תוצאות pen test קודמות מלפני שישה חודשים",
         "effects": [
           {
             "target": "security",
@@ -1055,7 +1055,7 @@
       },
       {
         "id": "pen-test-request-decline",
-        "label": "Decline — argue it's out of scope for this change",
+        "label": "לסרב — לטעון שזה מחוץ לתחולת השינוי",
         "effects": [
           {
             "target": "security",
@@ -1077,8 +1077,8 @@
   },
   {
     "id": "queue-jumped",
-    "title": "A P1 Incident Pushed Your Ticket Back",
-    "description": "A 2am production outage consumed the network team for the entire week. Your change request was deprioritized and pushed back another two cycles. Three weeks of queue position, gone. The original reviewer is now on PTO. The firewall rule hasn't moved.",
+    "title": "אירוע P1 דחף את הקריאה שלך לאחור",
+    "description": "תקלת פרודקשן בשעתיים בלילה צרכה את צוות הרשת לאורך כל השבוע. בקשת השינוי שלך ירדה בסדר עדיפויות ונדחתה בעוד שני מחזורים. שלושה שבועות במקום בתור, נעלמו. הסוקר המקורי עכשיו בחופשה. חוק הפיירוול לא זז.",
     "baseWeight": 8,
     "cooldown": 35,
     "conditions": [
@@ -1091,7 +1091,7 @@
     "actions": [
       {
         "id": "queue-jumped-escalate",
-        "label": "Escalate to the reviewer's manager",
+        "label": "לאסקלייט למנהל הסוקר",
         "effects": [
           {
             "target": "privilege",
@@ -1111,7 +1111,7 @@
       },
       {
         "id": "queue-jumped-wait",
-        "label": "Wait for the reviewer to return from PTO",
+        "label": "לחכות שהסוקר יחזור מהחופשה",
         "effects": [
           {
             "target": "bureaucracy",
@@ -1131,7 +1131,7 @@
       },
       {
         "id": "queue-jumped-backup",
-        "label": "Find a backup reviewer who can pick it up",
+        "label": "למצוא סוקר חלופי שיוכל לקחת את זה",
         "effects": [
           {
             "target": "bureaucracy",
@@ -1153,8 +1153,8 @@
   },
   {
     "id": "prod-emergency",
-    "title": "Production Is Down — The Port Is Needed Now",
-    "description": "The deployment went ahead without the firewall change. The application can't reach its backend. On-call phones are ringing. The incident commander declares P1. You can invoke the emergency change procedure — but it bypasses review steps and will be audited afterwards.",
+    "title": "הפרודקשן קרס — הפורט נחוץ עכשיו",
+    "description": "ה-deployment יצא לאוויר בלי שינוי הפיירוול. האפליקציה לא מגיעה לשרת הגב. טלפוני ה-on-call מצלצלים. מפקד האירוע מכריז P1. אפשר להפעיל נוהל שינוי חירום — אבל הוא עוקף שלבי בדיקה ויהיה נתון לביקורת בהמשך.",
     "baseWeight": 7,
     "cooldown": 40,
     "conditions": [
@@ -1167,7 +1167,7 @@
     "actions": [
       {
         "id": "prod-emergency-p1",
-        "label": "Invoke P1 emergency change — bypass normal queue",
+        "label": "להפעיל שינוי חירום P1 — לעקוף את התור הרגיל",
         "effects": [
           {
             "target": "privilege",
@@ -1187,7 +1187,7 @@
       },
       {
         "id": "prod-emergency-rollback",
-        "label": "Roll back the deployment instead — fix the process first",
+        "label": "לעשות rollback ל-deployment — לתקן את התהליך קודם",
         "effects": [
           {
             "target": "stress",
@@ -1207,7 +1207,7 @@
       },
       {
         "id": "prod-emergency-manual",
-        "label": "Have ops manually open the port without going through the process",
+        "label": "לבקש מ-ops לפתוח את הפורט ידנית בלי לעבור בתהליך",
         "effects": [
           {
             "target": "security",
@@ -1229,8 +1229,8 @@
   },
   {
     "id": "network-architect-review",
-    "title": "Senior Network Architect Demands a Review",
-    "description": "The ticket has been escalated to the principal network architect — a sign it's either unusually complex or politically charged. She wants a one-hour call to walk through the full architecture. She is known for finding problems nobody else noticed, and for being persuadable by solid technical reasoning.",
+    "title": "ארכיטקט רשת בכיר דורש בדיקה",
+    "description": "הקריאה הוסלקה לארכיטקט הרשת הראשי — סימן שזה או מורכב במיוחד או עמוס פוליטיקה. היא רוצה שיחה של שעה לסקירת הארכיטקטורה המלאה. היא ידועה כמי שמוצאת בעיות שאף אחד אחר לא שם לב אליהן — וגם כמי שניתן לשכנע אותה עם הגיון טכני מוצק.",
     "baseWeight": 8,
     "cooldown": 45,
     "conditions": [
@@ -1248,7 +1248,7 @@
     "actions": [
       {
         "id": "network-architect-review-thorough",
-        "label": "Prepare thoroughly and present the full technical case",
+        "label": "להתכונן לעומק ולהציג את כל התיק הטכני",
         "effects": [
           {
             "target": "privilege",
@@ -1272,7 +1272,7 @@
       },
       {
         "id": "network-architect-review-ticket",
-        "label": "Send the ticket and let her read it herself",
+        "label": "לשלוח לה את הקריאה ולתת לה לקרוא בעצמה",
         "effects": [
           {
             "target": "privilege",
@@ -1288,7 +1288,7 @@
       },
       {
         "id": "network-architect-review-manager",
-        "label": "Ask your manager to run interference",
+        "label": "לבקש מהמנהל שלך להתערב",
         "effects": [
           {
             "target": "influence",
@@ -1310,8 +1310,8 @@
   },
   {
     "id": "security-final-signoff",
-    "title": "Security Needs a Final Sign-off Call",
-    "description": "One signature away. The security engineer has reviewed all documentation and the pen test results. She wants a final 30-minute call: confirm the service owner, verify monitoring is in place on the port, and ensure alerting will fire if unexpected traffic appears.",
+    "title": "אבטחה צריכה שיחת אישור סופי",
+    "description": "חתימה אחת נשארת. מהנדס האבטחה סקר את כל התיעוד ותוצאות ה-pen test. הוא רוצה שיחה אחרונה של 30 דקות: לאשר את בעל השירות, לוודא שמוניטורינג קיים על הפורט, ולוודא שהתראות יפעלו אם תופיע תעבורה חריגה.",
     "baseWeight": 7,
     "cooldown": 45,
     "conditions": [
@@ -1329,7 +1329,7 @@
     "actions": [
       {
         "id": "security-final-signoff-call",
-        "label": "Schedule the call and prepare monitoring evidence",
+        "label": "לתזמן את השיחה ולהכין ראיות מוניטורינג",
         "effects": [
           {
             "target": "privilege",
@@ -1349,7 +1349,7 @@
       },
       {
         "id": "security-final-signoff-email",
-        "label": "Send the monitoring config over email instead",
+        "label": "לשלוח את תצורת המוניטורינג במייל במקום",
         "effects": [
           {
             "target": "security",
@@ -1369,7 +1369,7 @@
       },
       {
         "id": "security-final-signoff-conditional",
-        "label": "Say monitoring is 'in progress' — ask for conditional approval",
+        "label": "לומר שהמוניטורינג 'בתהליך' — לבקש אישור מותנה",
         "effects": [
           {
             "target": "security",
@@ -1391,8 +1391,8 @@
   },
   {
     "id": "cab-presentation",
-    "title": "CAB Meeting: Present the Actual Firewall Rule",
-    "description": "The Change Advisory Board has your ticket on the agenda. The chair asks you to read the proposed rule aloud: 'permit tcp 10.20.30.0/24 host 192.168.1.50 eq 8443'. Board members question the destination IP, the port justification, and the monitoring plan. Every answer matters.",
+    "title": "ישיבת CAB: להציג את חוק הפיירוול בפועל",
+    "description": "לוועדת ייעוץ השינויים (CAB) יש את הקריאה שלך בסדר היום. היו״ר מבקש ממך לקרוא את הכלל המוצע בקול: 'permit tcp 10.20.30.0/24 host 192.168.1.50 eq 8443'. חברי הוועד מטילים ספק בכתובת ה-IP של היעד, בהצדקת הפורט, ובתוכנית המוניטורינג. כל תשובה קובעת.",
     "baseWeight": 8,
     "cooldown": 45,
     "conditions": [
@@ -1410,7 +1410,7 @@
     "actions": [
       {
         "id": "cab-presentation-confident",
-        "label": "Present with full documentation and answer everything",
+        "label": "להציג עם תיעוד מלא ולענות על הכל",
         "effects": [
           {
             "target": "privilege",
@@ -1434,7 +1434,7 @@
       },
       {
         "id": "cab-presentation-data",
-        "label": "Walk through the data — defer on monitoring gaps",
+        "label": "לעבור על הנתונים — לדחות על פערים במוניטורינג",
         "effects": [
           {
             "target": "privilege",
@@ -1450,7 +1450,7 @@
       },
       {
         "id": "cab-presentation-urgency",
-        "label": "Lead with urgency — request deferred approval on conditions",
+        "label": "להתחיל מדחיפות — לבקש אישור דחוי עם תנאים",
         "effects": [
           {
             "target": "privilege",
@@ -1476,8 +1476,8 @@
   },
   {
     "id": "out-of-hours-push",
-    "title": "Firewall Admin Is Ready — It's Friday Night",
-    "description": "All approvals are in. The firewall admin is starting the maintenance window now. He pings you: 'Need you on the bridge call in case issues arise. Starting in 20 minutes.' It's 11pm on Friday. You're tired. But this is the implementation window.",
+    "title": "מנהל הפיירוול מוכן — זה ליל שישי",
+    "description": "כל האישורים נתקבלו. מנהל הפיירוול מתחיל את חלון התחזוקה עכשיו. הוא פינג אותך: 'צריך אותך בשיחת ה-bridge במקרה שיהיו בעיות. מתחיל בעוד 20 דקות.' זה 11 בלילה ביום שישי. אתה עייף. אבל זה חלון ה-implementation.",
     "baseWeight": 6,
     "cooldown": 50,
     "conditions": [
@@ -1495,7 +1495,7 @@
     "actions": [
       {
         "id": "out-of-hours-push-join",
-        "label": "Join the call and see the implementation through",
+        "label": "להצטרף לשיחה ולהשלים את ה-implementation",
         "effects": [
           {
             "target": "privilege",
@@ -1515,7 +1515,7 @@
       },
       {
         "id": "out-of-hours-push-async",
-        "label": "Sign off async and trust the process",
+        "label": "לאשר async ולסמוך על התהליך",
         "effects": [
           {
             "target": "privilege",
@@ -1531,7 +1531,7 @@
       },
       {
         "id": "out-of-hours-push-reschedule",
-        "label": "Ask to reschedule to next week's window",
+        "label": "לבקש לדחות לחלון של השבוע הבא",
         "effects": [
           {
             "target": "bureaucracy",
@@ -1553,8 +1553,8 @@
   },
   {
     "id": "connectivity-test",
-    "title": "Rule Is Live — Time to Verify the Port",
-    "description": "The firewall admin messages: 'Rule 1337 pushed — permit tcp 10.20.30.0/24 host 192.168.1.50 eq 8443 — ACTIVE.' You open a terminal on the app server. `telnet 192.168.1.50 8443`. The cursor blinks. This is the moment you've been working toward.",
+    "title": "הכלל פעיל — הגיע הזמן לאמת את הפורט",
+    "description": "מנהל הפיירוול מודיע: 'כלל 1337 הועבר — permit tcp 10.20.30.0/24 host 192.168.1.50 eq 8443 — פעיל.' אתה פותח טרמינל על שרת האפליקציה. `telnet 192.168.1.50 8443`. הסמן מהבהב. זה הרגע שעבדת לקראתו.",
     "baseWeight": 7,
     "cooldown": 40,
     "conditions": [
@@ -1577,7 +1577,7 @@
     "actions": [
       {
         "id": "connectivity-test-full",
-        "label": "Run telnet, nmap, and curl — document all results",
+        "label": "להריץ telnet, nmap, ו-curl — לתעד את כל התוצאות",
         "effects": [
           {
             "target": "privilege",
@@ -1597,7 +1597,7 @@
       },
       {
         "id": "connectivity-test-quick",
-        "label": "Quick telnet test — connected, good enough",
+        "label": "בדיקת telnet מהירה — מחובר, מספיק טוב",
         "effects": [
           {
             "target": "timeLeft",
@@ -1609,7 +1609,7 @@
       },
       {
         "id": "connectivity-test-colleague",
-        "label": "Ask a colleague to verify independently",
+        "label": "לבקש מעמית לאמת בנפרד",
         "effects": [
           {
             "target": "influence",
@@ -1627,15 +1627,15 @@
   },
   {
     "id": "deadline-extended",
-    "title": "Product Team Pushes the Launch Date",
-    "description": "A Slack message from the product manager: 'Good news — sprint got extended. Feature launch pushed back two weeks. No rush on your end.' This is pure luck, but you'll take it. The approval window just got wider.",
+    "title": "צוות המוצר דוחה את תאריך ההשקה",
+    "description": "הודעת Slack מהפרודקט מנג׳ר: 'בשורות טובות — הספרינט הוארך. השקת הפיצ׳ר נדחית בשבועיים. אין לחץ מצידך.' זה מזל טהור, אבל תקחו את זה. חלון האישור הרגע התרחב.",
     "baseWeight": 6,
     "cooldown": 70,
     "conditions": [],
     "actions": [
       {
         "id": "deadline-extended-strategic",
-        "label": "Acknowledge and use the extra time strategically",
+        "label": "לקבל את הידיעה ולהשתמש בזמן הנוסף באסטרטגיה",
         "effects": [
           {
             "target": "timeLeft",
@@ -1651,7 +1651,7 @@
       },
       {
         "id": "deadline-extended-confirm",
-        "label": "Ask for formal confirmation in the ticket",
+        "label": "לבקש אישור פורמלי בקריאה",
         "effects": [
           {
             "target": "timeLeft",
@@ -1669,8 +1669,8 @@
   },
   {
     "id": "manager-buys-time",
-    "title": "Manager Negotiates a Review Extension",
-    "description": "Your manager went to bat for you in the department heads meeting. 'I got them to hold the review open for another week,' she says. 'Don't waste it.' Political capital was spent on your behalf — make it count.",
+    "title": "המנהל משיג הארכת זמן לבדיקה",
+    "description": "המנהלת שלך נלחמה עבורך בישיבת ראשי המחלקות. 'הצלחתי לגרום להם להשאיר את הבדיקה פתוחה עוד שבוע,' היא אומרת. 'אל תבזבז את זה.' הוצא קפיטל פוליטי בשבילך — תנצל אותו.",
     "baseWeight": 5,
     "cooldown": 70,
     "conditions": [
@@ -1683,7 +1683,7 @@
     "actions": [
       {
         "id": "manager-buys-time-advance",
-        "label": "Thank her and immediately push the key blockers forward",
+        "label": "להודות לה ומיד לדחוף קדימה את החסמים העיקריים",
         "effects": [
           {
             "target": "timeLeft",
@@ -1699,7 +1699,7 @@
       },
       {
         "id": "manager-buys-time-polish",
-        "label": "Use the time to polish the documentation",
+        "label": "להשתמש בזמן לליטוש התיעוד",
         "effects": [
           {
             "target": "timeLeft",
@@ -1721,8 +1721,8 @@
   },
   {
     "id": "network-slot-opened",
-    "title": "Earlier Maintenance Window Just Freed Up",
-    "description": "The firewall admin messages: 'Someone cancelled their slot in Thursday's change window — three days earlier than yours. If your approvals are in by EOD Wednesday I can fit you in.' A compressed scramble, but it means the rule goes live sooner.",
+    "title": "חלון תחזוקה מוקדם יותר התפנה",
+    "description": "מנהל הפיירוול כותב: 'מישהו ביטל את הסלוט שלו בחלון השינויים של יום חמישי — שלושה ימים לפני שלך. אם האישורים יהיו מוכנים עד סוף יום רביעי אוכל להכניס אותך.' ריצה מואצת, אבל הכלל ייכנס לתוקף מהר יותר.",
     "baseWeight": 5,
     "cooldown": 65,
     "conditions": [
@@ -1735,7 +1735,7 @@
     "actions": [
       {
         "id": "network-slot-opened-take",
-        "label": "Scramble to meet the Wednesday deadline",
+        "label": "לרוץ לעמוד בדדליין של יום רביעי",
         "effects": [
           {
             "target": "timeLeft",
@@ -1751,7 +1751,7 @@
       },
       {
         "id": "network-slot-opened-decline",
-        "label": "Decline — stick with the scheduled slot",
+        "label": "לסרב — להישאר עם הסלוט המתוזמן",
         "effects": [
           {
             "target": "stress",
@@ -1769,8 +1769,8 @@
   },
   {
     "id": "port-open",
-    "title": "Connection Established — The Port Is Open",
-    "description": "The terminal doesn't lie: 'Connected to 192.168.1.50. Escape character is \\'^]\\'.' The port is open. Traffic is flowing. The application responds. You close CHG0042731 as 'Successfully Implemented' and send the message everyone has been waiting for: 'The port is open.'",
+    "title": "חיבור נוצר — הפורט פתוח",
+    "description": "הטרמינל לא משקר: 'Connected to 192.168.1.50. Escape character is \\'^]\\'.'. הפורט פתוח. התעבורה זורמת. האפליקציה מגיבה. אתה סוגר את CHG0042731 כ-'Successfully Implemented' ושולח את ההודעה שכולם חיכו לה: 'הפורט פתוח.'",
     "baseWeight": 10,
     "cooldown": 0,
     "terminal": true,
@@ -1800,7 +1800,7 @@
     "actions": [
       {
         "id": "port-open-document",
-        "label": "Close the ticket and document the full change",
+        "label": "לסגור את הקריאה ולתעד את השינוי המלא",
         "effects": [
           {
             "target": "stress",
@@ -1816,7 +1816,7 @@
       },
       {
         "id": "port-open-celebrate",
-        "label": "Post 'port is open' in Slack and write a post-mortem",
+        "label": "לפרסם 'הפורט פתוח' ב-Slack ולכתוב post-mortem",
         "effects": [
           {
             "target": "stress",
@@ -1838,8 +1838,8 @@
   },
   {
     "id": "port-blocked",
-    "title": "Request Formally Denied — Port Stays Closed",
-    "description": "The security committee has issued its final decision: the firewall rule will not be implemented. The risk profile is outside the organization's risk tolerance. CHG0042731 is marked 'Rejected'. The port remains closed. Your application will need to be redesigned around an approved port.",
+    "title": "הבקשה נדחתה רשמית — הפורט נשאר סגור",
+    "description": "ועדת האבטחה הוציאה את החלטתה הסופית: חוק הפיירוול לא יוטמע. פרופיל הסיכון חורג מסף הסיכון שהארגון מוכן לקבל. CHG0042731 מסומן כ-'Rejected'. הפורט נשאר סגור. האפליקציה תצטרך להיבנות מחדש סביב פורט מאושר.",
     "baseWeight": 12,
     "cooldown": 0,
     "terminal": true,
@@ -1854,7 +1854,7 @@
     "actions": [
       {
         "id": "port-blocked-accept",
-        "label": "Accept the decision and begin redesigning",
+        "label": "לקבל את ההחלטה ולהתחיל בעיצוב מחדש",
         "effects": [
           {
             "target": "stress",
@@ -1870,7 +1870,7 @@
       },
       {
         "id": "port-blocked-appeal",
-        "label": "File a formal written appeal to the CISO",
+        "label": "להגיש ערר פורמלי בכתב ל-CISO",
         "effects": [
           {
             "target": "stress",
@@ -1888,8 +1888,8 @@
   },
   {
     "id": "ticket-expired",
-    "title": "Ticket Auto-Closed — Bureaucratic Expiration",
-    "description": "CHG0042731 has been automatically closed after 90 days in the approval queue without progression. Network team policy: stale tickets close without action. You would need to resubmit from scratch — but there's no time left. The firewall rule was never written. The port stays closed.",
+    "title": "הקריאה נסגרה אוטומטית — תפוגה ביורוקרטית",
+    "description": "CHG0042731 נסגרה אוטומטית לאחר 90 יום בתור האישורים ללא התקדמות. מדיניות צוות הרשת: קריאות ישנות נסגרות ללא פעולה. היית צריך להגיש מחדש מאפס — אבל אין יותר זמן. חוק הפיירוול מעולם לא נכתב. הפורט נשאר סגור.",
     "baseWeight": 10,
     "cooldown": 0,
     "terminal": true,
@@ -1904,7 +1904,7 @@
     "actions": [
       {
         "id": "ticket-expired-accept",
-        "label": "Accept the system's decision",
+        "label": "לקבל את החלטת המערכת",
         "effects": [
           {
             "target": "stress",
@@ -1920,7 +1920,7 @@
       },
       {
         "id": "ticket-expired-reopen",
-        "label": "Attempt to reopen the ticket manually",
+        "label": "לנסות לפתוח מחדש את הקריאה ידנית",
         "effects": [
           {
             "target": "stress",
