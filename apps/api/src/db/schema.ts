@@ -10,4 +10,6 @@ export const events = sqliteTable('events', {
   terminalOutcome: text('terminal_outcome'),
   conditions:      text('conditions').notNull().default('[]'),
   actions:         text('actions').notNull().default('[]'),
+  createdByCsv:    integer('created_by_csv', { mode: 'boolean' }),
+  csvNumber:       integer('csv_number'),
 })

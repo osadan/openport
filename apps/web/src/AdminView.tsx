@@ -37,11 +37,25 @@ async function deleteEvent(id: string): Promise<void> {
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
 }
 
+type EventWithMeta = Event & { createdByCsv?: boolean; csvNumber?: number }
+type CsvImport = { csvNumber: number; count: number }
+
+async function fetchCsvImports(): Promise<CsvImport[]> {
+  const res = await fetch(`${API}/csv-imports`)
+  if (!res.ok) return []
+  return res.json()
+}
+
+async function deleteCsvImport(csvNumber: number): Promise<void> {
+  const res = await fetch(`${API}/csv/${csvNumber}`, { method: 'DELETE' })
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+}
+
 // CSV format: one row per action (event fields repeated per row)
 // Columns: event_id, event_title, event_description, event_baseWeight, event_cooldown,
 //          event_terminal, event_terminalOutcome, event_conditions,
 //          action_id, action_label, action_cooldown, action_scoreImpact, action_effects
-async function importFromCsv(file: File): Promise<{ imported: number; errors: string[] }> {
+async function importFromCsv(file: File): Promise<{ imported: number; csvNumber: number; errors: string[] }> {
   const text = await file.text()
   const { data, errors: parseErrors } = Papa.parse<Record<string, string>>(text, {
     header: true,
@@ -50,13 +64,19 @@ async function importFromCsv(file: File): Promise<{ imported: number; errors: st
 
   if (parseErrors.length) throw new Error(`CSV parse error: ${parseErrors[0].message}`)
 
+  // Determine next csv_number
+  const existingImports = await fetchCsvImports()
+  const nextCsvNumber = existingImports.length > 0
+    ? Math.max(...existingImports.map(i => i.csvNumber)) + 1
+    : 1
+
   // Group rows by event_id to reconstruct events
-  const eventMap = new Map<string, Event>()
+  const eventMap = new Map<string, EventWithMeta>()
   const rowErrors: string[] = []
 
   for (const row of data) {
     const id = row.event_id?.trim()
-    if (!id) { rowErrors.push(`Row missing event_id`); continue }
+    if (!id) { rowErrors.push('Row missing event_id'); continue }
 
     if (!eventMap.has(id)) {
       let conditions: Condition[] = []
@@ -72,7 +92,9 @@ async function importFromCsv(file: File): Promise<{ imported: number; errors: st
         terminal:        row.event_terminal === 'true' || undefined,
         terminalOutcome: (row.event_terminalOutcome as 'win' | 'lose') || undefined,
         conditions,
-        actions: [],
+        actions:         [],
+        createdByCsv:    true,
+        csvNumber:       nextCsvNumber,
       })
     }
 
@@ -92,17 +114,28 @@ async function importFromCsv(file: File): Promise<{ imported: number; errors: st
     }
   }
 
-  // Upsert each event
+  // Upsert each event with csv metadata
   let imported = 0
   for (const ev of eventMap.values()) {
-    // Check if exists
     const checkRes = await fetch(`${API}/${ev.id}`)
     const isNew = !checkRes.ok
-    await saveEvent(ev, isNew)
+    const url    = isNew ? API : `${API}/${ev.id}`
+    const method = isNew ? 'POST' : 'PUT'
+    const body   = isNew ? ev : (({ id: _id, ...rest }) => rest)(ev)
+    const res = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: res.statusText }))
+      rowErrors.push(`event ${ev.id}: ${err.error ?? res.statusText}`)
+      continue
+    }
     imported++
   }
 
-  return { imported, errors: rowErrors }
+  return { imported, csvNumber: nextCsvNumber, errors: rowErrors }
 }
 
 function emptyAction(): Action {
@@ -345,9 +378,14 @@ function EventEditor({
 // ── admin shell ─────────────────────────────────────────────────────────────
 
 export function AdminView() {
-  const { data: events, isLoading, error } = useQuery<Event[]>({
+  const { data: events, isLoading, error } = useQuery<EventWithMeta[]>({
     queryKey: ['events'],
     queryFn: fetchEvents,
+  })
+
+  const { data: csvImports, refetch: refetchCsvImports } = useQuery<CsvImport[]>({
+    queryKey: ['csv-imports'],
+    queryFn: fetchCsvImports,
   })
 
   const [selectedId, setSelectedId] = useState<string | null>(null)
@@ -359,42 +397,39 @@ export function AdminView() {
   async function handleCsvImport(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
-    setImportStatus('Importing…')
+    setImportStatus('מייבא…')
     try {
-      const { imported, errors } = await importFromCsv(file)
+      const { imported, csvNumber, errors } = await importFromCsv(file)
       await qc.invalidateQueries({ queryKey: ['events'] })
+      await qc.invalidateQueries({ queryKey: ['csv-imports'] })
       setImportStatus(
         errors.length
-          ? `Imported ${imported} events. Warnings: ${errors.join('; ')}`
-          : `✓ Imported ${imported} events`
+          ? `יובאו ${imported} אירועים (CSV #${csvNumber}). אזהרות: ${errors.join('; ')}`
+          : `✓ יובאו ${imported} אירועים (CSV #${csvNumber})`
       )
     } catch (err) {
-      setImportStatus(`Error: ${(err as Error).message}`)
+      setImportStatus(`שגיאה: ${(err as Error).message}`)
     }
     e.target.value = ''
   }
 
+  async function handleDeleteCsvImport(csvNumber: number, count: number) {
+    if (!confirm(`למחוק את כל ${count} האירועים מ-CSV #${csvNumber}?`)) return
+    await deleteCsvImport(csvNumber)
+    await qc.invalidateQueries({ queryKey: ['events'] })
+    await qc.invalidateQueries({ queryKey: ['csv-imports'] })
+    refetchCsvImports()
+    if (events?.find(e => e.csvNumber === csvNumber && e.id === selectedId)) {
+      setSelectedId(null)
+    }
+  }
+
   const selected = events?.find(e => e.id === selectedId) ?? null
 
-  function handleNew() {
-    setSelectedId(null)
-    setIsNew(true)
-  }
-
-  function handleSelect(id: string) {
-    setSelectedId(id)
-    setIsNew(false)
-  }
-
-  function handleSaved(ev: Event) {
-    setSelectedId(ev.id)
-    setIsNew(false)
-  }
-
-  function handleDeleted() {
-    setSelectedId(null)
-    setIsNew(false)
-  }
+  function handleNew() { setSelectedId(null); setIsNew(true) }
+  function handleSelect(id: string) { setSelectedId(id); setIsNew(false) }
+  function handleSaved(ev: Event) { setSelectedId(ev.id); setIsNew(false) }
+  function handleDeleted() { setSelectedId(null); setIsNew(false) }
 
   const editorEvent = isNew ? emptyEvent() : selected
 
@@ -408,8 +443,8 @@ export function AdminView() {
       <div className="admin-body">
         {/* Left panel: event list */}
         <aside className="event-list">
-          <button className="btn-new" onClick={handleNew}>+ New Event</button>
-          <button className="btn-import" onClick={() => fileInputRef.current?.click()}>↑ Import CSV</button>
+          <button className="btn-new" onClick={handleNew}>+ אירוע חדש</button>
+          <button className="btn-import" onClick={() => fileInputRef.current?.click()}>↑ ייבוא CSV</button>
           <input
             ref={fileInputRef}
             type="file"
@@ -417,9 +452,29 @@ export function AdminView() {
             style={{ display: 'none' }}
             onChange={handleCsvImport}
           />
-          {importStatus && <p className={`status ${importStatus.startsWith('Error') ? 'error' : ''}`}>{importStatus}</p>}
-          {isLoading && <p className="status">Loading…</p>}
-          {error   && <p className="status error">Failed to load events</p>}
+          {importStatus && <p className={`status ${importStatus.startsWith('שגיאה') ? 'error' : ''}`}>{importStatus}</p>}
+
+          {/* CSV import batches */}
+          {csvImports && csvImports.length > 0 && (
+            <div className="csv-imports-section">
+              <span className="sub-label" style={{ padding: '4px 0', display: 'block' }}>ייבואי CSV</span>
+              {csvImports.map(ci => (
+                <div key={ci.csvNumber} className="csv-import-row">
+                  <span className="csv-badge">CSV #{ci.csvNumber}</span>
+                  <span className="csv-count">{ci.count} אירועים</span>
+                  <button
+                    className="btn-icon"
+                    title={`מחק את כל האירועים מ-CSV #${ci.csvNumber}`}
+                    onClick={() => handleDeleteCsvImport(ci.csvNumber, ci.count)}
+                  >×</button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="event-list-divider" />
+          {isLoading && <p className="status">טוען…</p>}
+          {error   && <p className="status error">שגיאה בטעינת אירועים</p>}
           {events?.map(ev => (
             <button
               key={ev.id}
@@ -427,7 +482,12 @@ export function AdminView() {
               onClick={() => handleSelect(ev.id)}
             >
               <span className="event-item-title">{ev.title}</span>
-              <span className="event-item-id">{ev.id}</span>
+              <span className="event-item-meta">
+                <span className="event-item-id">{ev.id}</span>
+                {ev.csvNumber != null && (
+                  <span className="csv-badge csv-badge--sm">CSV #{ev.csvNumber}</span>
+                )}
+              </span>
             </button>
           ))}
         </aside>

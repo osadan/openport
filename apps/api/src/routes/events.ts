@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
-import { eq } from 'drizzle-orm'
+import { eq, sql } from 'drizzle-orm'
 import { db } from '../db'
 import { events } from '../db/schema'
 
@@ -34,6 +34,8 @@ const EventSchema = z.object({
   terminalOutcome: z.enum(['win', 'lose']).optional(),
   conditions:      z.array(ConditionSchema).default([]),
   actions:         z.array(ActionSchema),
+  createdByCsv:    z.boolean().optional(),
+  csvNumber:       z.number().int().optional(),
 })
 
 function rowToEvent(row: typeof events.$inferSelect) {
@@ -47,6 +49,8 @@ function rowToEvent(row: typeof events.$inferSelect) {
     terminalOutcome: (row.terminalOutcome as 'win' | 'lose' | undefined) ?? undefined,
     conditions:      JSON.parse(row.conditions),
     actions:         JSON.parse(row.actions),
+    createdByCsv:    row.createdByCsv ?? undefined,
+    csvNumber:       row.csvNumber ?? undefined,
   }
 }
 
@@ -56,6 +60,38 @@ export const eventsRouter = new Hono()
 eventsRouter.get('/', (c) => {
   const rows = db.select().from(events).all()
   return c.json(rows.map(rowToEvent))
+})
+
+// GET /api/events/csv-imports — list distinct CSV batches with event counts
+eventsRouter.get('/csv-imports', (c) => {
+  const rows = db
+    .select({
+      csvNumber: events.csvNumber,
+      count: sql<number>`count(*)`,
+    })
+    .from(events)
+    .where(sql`csv_number IS NOT NULL`)
+    .groupBy(events.csvNumber)
+    .orderBy(events.csvNumber)
+    .all()
+
+  return c.json(rows.map(r => ({ csvNumber: r.csvNumber, count: r.count })))
+})
+
+// DELETE /api/events/csv/:number — delete all events from a specific CSV import
+eventsRouter.delete('/csv/:number', (c) => {
+  const num = Number(c.req.param('number'))
+  if (!Number.isInteger(num)) return c.json({ error: 'Invalid csv number' }, 400)
+
+  const deleted = db
+    .select({ id: events.id })
+    .from(events)
+    .where(eq(events.csvNumber, num))
+    .all()
+
+  db.delete(events).where(eq(events.csvNumber, num)).run()
+
+  return c.json({ ok: true, deleted: deleted.length })
 })
 
 // GET /api/events/:id — single event
@@ -81,6 +117,8 @@ eventsRouter.post('/', zValidator('json', EventSchema), (c) => {
     terminalOutcome: ev.terminalOutcome ?? null,
     conditions:      JSON.stringify(ev.conditions),
     actions:         JSON.stringify(ev.actions),
+    createdByCsv:    ev.createdByCsv ?? null,
+    csvNumber:       ev.csvNumber ?? null,
   }).run()
 
   const row = db.select().from(events).where(eq(events.id, ev.id)).get()!
@@ -104,6 +142,8 @@ eventsRouter.put('/:id', zValidator('json', EventSchema.omit({ id: true })), (c)
     terminalOutcome: ev.terminalOutcome ?? null,
     conditions:      JSON.stringify(ev.conditions),
     actions:         JSON.stringify(ev.actions),
+    createdByCsv:    ev.createdByCsv ?? null,
+    csvNumber:       ev.csvNumber ?? null,
   }).where(eq(events.id, id)).run()
 
   const row = db.select().from(events).where(eq(events.id, id)).get()!
